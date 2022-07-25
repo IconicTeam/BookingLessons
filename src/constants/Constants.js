@@ -8,3 +8,15 @@ export const COLORS = {
   warning: '#fdac71',
   success: '#6adaa4',
 };
+
+export const ICONS = {
+  
+}
+
+export const FONTS = {
+
+}
+
+export const PADDINGS = {
+  
+}

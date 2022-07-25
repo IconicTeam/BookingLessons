@@ -3,12 +3,14 @@ import React, {Component} from 'react';
 
 import {COLORS} from './src/constants';
 
+import OneTimePassword from './auth/OneTimePassword';
+
 class App extends Component {
   render() {
     return (
-      <View>
-        <Text>App</Text>
-      </View>
+      // <View style={{height: '50%', width: '100%'}}>
+        <OneTimePassword />
+      // </View>
     );
   }
 }
