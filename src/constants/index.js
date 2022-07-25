@@ -1,4 +1,5 @@
-// import { COLORS, FONTS } from './Constants';
-// export {COLORS, FONTS}
+import {COLORS, PADDINGS, RADIUS, ICONS, FONTS} from './Constants';
+import Icons from './Icons';
 
-export {COLORS, FONTS, ICONS, PADDINGS} from './Constants';
+export {COLORS, PADDINGS, RADIUS, ICONS, FONTS};
+export {Icons};
