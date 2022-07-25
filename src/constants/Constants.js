@@ -48,15 +48,3 @@ export const FONTS = {
   h5: RFValue(15),
   h6: RFValue(10),
 };
-
-export const ICONS = {
-  
-}
-
-export const FONTS = {
-
-}
-
-export const PADDINGS = {
-  
-}
