@@ -1,23 +1,19 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {Component} from 'react';
 
-import {COLORS} from './src/constants';
+import screens from './src/screens'; // get all pages in screens folder
+
+// native base
+import {NativeBaseProvider} from 'native-base';
 
 class App extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>App</Text>
-      </View>
+      <NativeBaseProvider>
+        <screens.SignupScreen />
+      </NativeBaseProvider>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.error,
-    flex: 1,
-  },
-});
 
 export default App;
