@@ -10,44 +10,51 @@ import {
   ScrollView,
 } from 'react-native';
 import {COLORS, FONTS, RADIUS} from '../../constants/Constants';
-const {width, height} = Dimensions.get('window');
+const {width, height} = Dimensions.get('screen');
 export class ConfirmPasswordScreen extends React.Component {
   render() {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <View style={styles.header}>
-            <Text style={styles.textHeaderStyle}>ادخل كلمة المرور</Text>
+          <View
+            style={{
+              width: width,
+              height: height * 0.85,
+              justifyContent: 'space-between',
+            }}>
+            <View style={styles.header}>
+              <Text style={styles.textHeaderStyle}>ادخل كلمة المرور</Text>
+            </View>
+            <View style={styles.imageViewStyle}>
+              <Image
+                style={styles.imageStyle}
+                source={require('../../assets/Images/confirm.png')}
+              />
+            </View>
+            <View style={styles.viewTextStyle}>
+              <Text style={styles.textStyle}>من فضلك قم بادخال الرقم</Text>
+              <Text style={styles.textStyle}>لاستلام كود التأكيد</Text>
+            </View>
+            <View style={styles.textInputViewStyle}>
+              <TextInput
+                secureTextEntry={true}
+                style={styles.textInputStyle}
+                placeholder="الرقم السري الجديد"
+                placeholderTextColor={'#aaa'}
+              />
+            </View>
+            <View style={styles.textInputViewStyle}>
+              <TextInput
+                secureTextEntry={true}
+                style={styles.textInputStyle}
+                placeholder="تأكيد الرقم السري "
+                placeholderTextColor={'#aaa'}
+              />
+            </View>
+            <TouchableOpacity activeOpacity={0.6} style={styles.buttonStyle}>
+              <Text style={styles.textButtonStyle}>تأكيد</Text>
+            </TouchableOpacity>
           </View>
-          <View style={styles.imageViewStyle}>
-            <Image
-              style={styles.imageStyle}
-              source={require('../../assets/Images/confirm.png')}
-            />
-          </View>
-          <View style={styles.viewTextStyle}>
-            <Text style={styles.textStyle}>من فضلك قم بادخال الرقم</Text>
-            <Text style={styles.textStyle}>لاستلام كود التأكيد</Text>
-          </View>
-          <View style={styles.textInputViewStyle}>
-            <TextInput
-              secureTextEntry={true}
-              style={styles.textInputStyle}
-              placeholder="الرقم السري الجديد"
-              placeholderTextColor={'#aaa'}
-            />
-          </View>
-          <View style={styles.textInputViewStyle}>
-            <TextInput
-              secureTextEntry={true}
-              style={styles.textInputStyle}
-              placeholder="تأكيد الرقم السري "
-              placeholderTextColor={'#aaa'}
-            />
-          </View>
-          <TouchableOpacity activeOpacity={0.6} style={styles.buttonStyle}>
-            <Text style={styles.textButtonStyle}>تأكيد</Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
     );
@@ -56,8 +63,8 @@ export class ConfirmPasswordScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     width: width,
-    height: height * 0.85,
-    justifyContent: 'space-between',
+    height: height,
+    backgroundColor: '#fff',
   },
   header: {
     margin: height * 0.015,
