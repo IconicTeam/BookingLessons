@@ -12,7 +12,7 @@ const MainTextInput = ({
   value,
   onChangeText,
   onSubmitEditing,
-  ref,
+  inputRef,
   blurOnSubmit,
   maxLength,
   returnKeyType,
@@ -21,6 +21,7 @@ const MainTextInput = ({
   right,
   left,
   marginBottom,
+  autoCapitalize,
 }) => {
   return (
     <View
@@ -30,7 +31,7 @@ const MainTextInput = ({
       ]}>
       {right}
       <TextInput
-        ref={ref}
+        ref={inputRef}
         style={generalStyles.textInputStyle}
         placeholder={placeholder}
         value={value}
@@ -42,6 +43,8 @@ const MainTextInput = ({
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         selectionColor={COLORS.textinput_selection}
+        autoCapitalize={autoCapitalize}
+        placeholderTextColor={COLORS.gray}
       />
       {left}
     </View>

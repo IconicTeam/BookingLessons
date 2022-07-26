@@ -3,7 +3,7 @@ import {RFValue} from 'react-native-responsive-fontsize';
 export const COLORS = {
   primary: '#374ef3',
   primary_overlay: '#dcdff3',
-  background: '#f4f4f4',
+  background: '#ffffff', // '#f4f4f4',
   black: '#222222',
   white: '#ffffff',
   gray: 'gray',
@@ -12,7 +12,9 @@ export const COLORS = {
   success: '#6adaa4',
   white_gray: '#aaaaaa',
   overlay: '#00000010',
-  textinput_selection: '#374ef360',
+  textinput_selection: '#374ef350',
+  gray_overlay: '#eeeeee',
+  disabled: '#888888',
 };
 
 export const PADDINGS = {
@@ -30,6 +32,9 @@ export const RADIUS = {
   xsRadius: 5,
   smRadius: 10,
   mdRadius: 15,
+  lgRadius: 25,
+  xlRadius: 30,
+  xxlRadius: 35,
 };
 
 export const ICONS = {

@@ -45,9 +45,11 @@ export const generalStyles = StyleSheet.create({
     width: '100%',
     minHeight: 40,
     height: RFValue(45),
-    borderRadius: RADIUS.radius,
-    backgroundColor: COLORS.primary_overlay,
+    borderRadius: RADIUS.smRadius,
+    backgroundColor: COLORS.gray_overlay,
     overflow: 'hidden',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   textInputStyle: {
     flex: 1,
@@ -56,6 +58,7 @@ export const generalStyles = StyleSheet.create({
     paddingHorizontal: PADDINGS.smPadding,
     color: COLORS.black,
     fontSize: FONTS.h5,
+    textAlign: 'right',
   },
   textInputRightStyle: {
     marginLeft: PADDINGS.smPadding,
@@ -66,9 +69,24 @@ export const generalStyles = StyleSheet.create({
 });
 
 export const buttonsStyles = StyleSheet.create({
-  mainButtonStyle: {},
-  primaryButtonStyle: {},
-  secondaryButtonStyle: {},
+  mainButtonStyle: {
+    minWidth: '50%',
+    minHeight: 40,
+    height: RFValue(45),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: RADIUS.smRadius,
+    paddingHorizontal: PADDINGS.lgPadding,
+  },
+  primaryButtonStyle: {
+    backgroundColor: COLORS.primary,
+  },
+  disabledButtonStyle: {
+    backgroundColor: COLORS.disabled,
+  },
+  secondaryButtonStyle: {
+    padding: PADDINGS.xsPadding,
+  },
   backButtonContainerStyle: {
     minWidth: 35,
     minHeight: 35,
@@ -127,5 +145,17 @@ export const textStyles = StyleSheet.create({
   xxlTextStyle: {
     fontSize: FONTS.h1,
     color: COLORS.black,
+  },
+  whiteTextStyle: {
+    color: COLORS.white,
+  },
+  grayTextStyle: {
+    color: COLORS.gray,
+  },
+  primaryTextStyle: {
+    color: COLORS.primary,
+  },
+  boldTextStyle: {
+    fontWeight: '600',
   },
 });
