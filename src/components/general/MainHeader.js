@@ -14,7 +14,7 @@ const MainHeader = ({navigation, title, haveBackButton, anotherButtons}) => {
       style={[
         generalStyles.headerStyle,
         {
-          paddingLeft: !haveBackButton
+          paddingRight: !haveBackButton
             ? PADDINGS.mdPadding + 10
             : PADDINGS.mdPadding,
         },

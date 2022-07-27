@@ -28,7 +28,7 @@ export class ConfirmPasswordScreen extends React.Component {
             <View style={styles.imageViewStyle}>
               <Image
                 style={styles.imageStyle}
-                source={require('../../assets/Images/confirm.png')}
+                source={require('../../assets/images/confirm.png')}
               />
             </View>
             <View style={styles.viewTextStyle}>

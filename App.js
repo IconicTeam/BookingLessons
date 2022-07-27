@@ -15,7 +15,10 @@ class App extends Component {
       // <NativeBaseProvider>
       //   <auth.ConfirmPasswordScreen />
       // </NativeBaseProvider>
-      <ConfirmPasswordScreen />
+      // <ConfirmPasswordScreen />
+      <NativeBaseProvider>
+        <screens.SignupScreen />
+      </NativeBaseProvider>
     );
   }
 }

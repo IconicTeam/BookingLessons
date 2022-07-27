@@ -20,15 +20,13 @@ const MainTextInput = ({
   keyboardType,
   right,
   left,
-  marginBottom,
+  marginTop,
   autoCapitalize,
+  onEndEditing,
 }) => {
   return (
     <View
-      style={[
-        generalStyles.textInputContainerStyle,
-        {marginBottom: marginBottom},
-      ]}>
+      style={[generalStyles.textInputContainerStyle, {marginTop: marginTop}]}>
       {right}
       <TextInput
         ref={inputRef}
@@ -45,6 +43,7 @@ const MainTextInput = ({
         selectionColor={COLORS.textinput_selection}
         autoCapitalize={autoCapitalize}
         placeholderTextColor={COLORS.gray}
+        onEndEditing={onEndEditing}
       />
       {left}
     </View>

@@ -1,34 +1,43 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 
 import {buttonsStyles, textStyles} from '../../styles';
 
 const MainButton = ({
-  navigation,
   title,
   onPress,
   type = 'primary',
   width,
   disabled,
+  resStyle,
+  loading,
+  loadingColor,
+  loadingSize,
 }) => {
   return (
     <TouchableOpacity
       style={[
         buttonsStyles.mainButtonStyle,
-        buttonsStyles[`${type}ButtonStyle`],
-        {width: width},
+        disabled
+          ? buttonsStyles.disabledButtonStyle
+          : buttonsStyles[`${type}ButtonStyle`],
+        {width: width, ...resStyle},
       ]}
       onPress={onPress}
       activeOpacity={0.4}
       disabled={disabled}>
-      <Text
-        style={[
-          textStyles.mdTextStyle,
-          textStyles.whiteTextStyle,
-          textStyles.boldTextStyle,
-        ]}>
-        {title}
-      </Text>
+      {loading ? (
+        <ActivityIndicator size={loadingSize} color={loadingColor} />
+      ) : (
+        <Text
+          style={[
+            textStyles.mdTextStyle,
+            textStyles.whiteTextStyle,
+            textStyles.boldTextStyle,
+          ]}>
+          {title}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };
