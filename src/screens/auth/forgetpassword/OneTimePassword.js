@@ -19,7 +19,8 @@ import components from "../../../components";
 import Container from "../../../components/general/Container";
 import { generalStyles, textStyles, } from "../../../styles";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { COLORS, FONTS, ICONS, PADDINGS } from "../../../constants";
+import { COLORS, FONTS, ICONS, PADDINGS ,RADIUS} from "../../../constants";
+import { ReloadInstructions } from "react-native/Libraries/NewAppScreen";
 export default class OneTimePassword extends React.Component {
     constructor(props) {
         super(props);
@@ -81,9 +82,7 @@ export default class OneTimePassword extends React.Component {
                     <View style={styles.view3}>
                         <Image
                             source=
-                            {{
-                                uri: 'https://www.cellcom.eu/phpthumb/cache/uploads/sms_toepassingen/Wachtwoord-via-sms-1/w400h2400zc0q100/Wachtwoord-via-sms-1.png'
-                            }}
+                            {require("../../../assets/Images/otp.png")}
                             style=
                             {{
                                 width: RFValue(250),
@@ -93,10 +92,10 @@ export default class OneTimePassword extends React.Component {
                         />
                     </View>
                     <View style={styles.view3}>
-                        <Text style={textStyles.mdTextStyle}>
+                        <Text style={textStyles.smTextStyle}>
                             من فضلك قم بإدخال
                         </Text>
-                        <Text style={textStyles.mdTextStyle}>
+                        <Text style={textStyles.smTextStyle}>
                             الكود المرسل إليك المكون من 4 أرقام
                         </Text>
                     </View>
@@ -210,14 +209,14 @@ export default class OneTimePassword extends React.Component {
                         </TextInput>
                     </View>
                     <View style={styles.view5}>
-                        <Text style={textStyles.mdTextStyle}>ألم تستلم الرمز؟ </Text>
+                        <Text style={textStyles.smTextStyle}>ألم تستلم الرمز؟ </Text>
                         <TouchableOpacity>
-                            <Text style={[textStyles.mdTextStyle,{color:COLORS.primary}]}>أعد إرسال الرمز</Text>
+                            <Text style={[textStyles.smTextStyle,{color:COLORS.primary}]}>أعد إرسال الرمز</Text>
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity
                         disabled={this.state.pressIn ? true : false}
-                        style={[styles.touchableopicty2, { backgroundColor: this.state.pressIn ? COLORS.gray : COLORS.primary, }]}>
+                        style={[styles.touchableopicty2, { backgroundColor: this.state.pressIn ? COLORS.disabled : COLORS.primary, }]}>
                         <Text
                             style={[textStyles.lgTextStyle,{color:COLORS.white}]}
                         >تأكيد
@@ -245,7 +244,7 @@ const styles = StyleSheet.create({
         height: RFValue(60),
         alignSelf: "center",
         marginTop: 30,
-        borderRadius: 12,
+        borderRadius:RADIUS.mdRadius,
         alignItems: "center",
         justifyContent: "center"
 

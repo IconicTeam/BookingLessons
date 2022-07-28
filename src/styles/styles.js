@@ -33,6 +33,12 @@ export const generalStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  avatarStyle: {
+    width: RFValue(100) >= 100 ? RFValue(100) : 80,
+    height: RFValue(100) >= 100 ? RFValue(100) : 80,
+    // minWidth: 80,
+    // minHeight: 80,
+  },
   badgeStyle: {
     width: RFValue(40),
     height: RFValue(40),
@@ -43,11 +49,13 @@ export const generalStyles = StyleSheet.create({
   },
   textInputContainerStyle: {
     width: '100%',
-    minHeight: 40,
-    height: RFValue(45),
-    borderRadius: RADIUS.radius,
-    backgroundColor: COLORS.primary_overlay,
+    // minHeight: 40,
+    height: RFValue(45) >= 45 ? RFValue(45) : 40,
+    borderRadius: RADIUS.smRadius,
+    backgroundColor: COLORS.gray_overlay,
     overflow: 'hidden',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   textInputStyle: {
     flex: 1,
@@ -56,6 +64,7 @@ export const generalStyles = StyleSheet.create({
     paddingHorizontal: PADDINGS.smPadding,
     color: COLORS.black,
     fontSize: FONTS.h5,
+    textAlign: 'right',
   },
   textInputRightStyle: {
     marginLeft: PADDINGS.smPadding,
@@ -67,21 +76,36 @@ export const generalStyles = StyleSheet.create({
 textInput_otp: {
     width: RFValue(50),
     height: RFValue(50),
-    backgroundColor: COLORS.primary_overlay,
+    backgroundColor: COLORS.gray_overlay,
     borderRadius: 7,
     textAlign: 'center',
 }
 });
 
 export const buttonsStyles = StyleSheet.create({
-  mainButtonStyle: {},
-  primaryButtonStyle: {},
-  secondaryButtonStyle: {},
+  mainButtonStyle: {
+    minWidth: '50%',
+    // minHeight: 40,
+    height: RFValue(45) >= 45 ? RFValue(45) : 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: RADIUS.smRadius,
+    paddingHorizontal: PADDINGS.lgPadding,
+  },
+  primaryButtonStyle: {
+    backgroundColor: COLORS.primary,
+  },
+  disabledButtonStyle: {
+    backgroundColor: COLORS.disabled,
+  },
+  secondaryButtonStyle: {
+    padding: PADDINGS.xsPadding,
+  },
   backButtonContainerStyle: {
-    minWidth: 35,
-    minHeight: 35,
-    width: RFValue(40),
-    height: RFValue(40),
+    // minWidth: 35,
+    // minHeight: 35,
+    width: RFValue(40) >= 40 ? RFValue(40) : 35,
+    height: RFValue(40) >= 40 ? RFValue(40) : 35,
     borderRadius: RADIUS.radius,
     overflow: 'hidden',
     marginRight: PADDINGS.mdPadding,
@@ -97,10 +121,10 @@ export const buttonsStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   smCircleStyle: {
-    minWidth: 35,
-    minHeight: 35,
-    width: RFValue(40),
-    height: RFValue(40),
+    // minWidth: 35,
+    // minHeight: 35,
+    width: RFValue(40) >= 40 ? RFValue(40) : 35,
+    height: RFValue(40) >= 40 ? RFValue(40) : 35,
     borderRadius: RADIUS.radius,
     overflow: 'hidden',
   },
@@ -135,5 +159,17 @@ export const textStyles = StyleSheet.create({
   xxlTextStyle: {
     fontSize: FONTS.h1,
     color: COLORS.black,
+  },
+  whiteTextStyle: {
+    color: COLORS.white,
+  },
+  grayTextStyle: {
+    color: COLORS.gray,
+  },
+  primaryTextStyle: {
+    color: COLORS.primary,
+  },
+  boldTextStyle: {
+    fontWeight: '600',
   },
 });
