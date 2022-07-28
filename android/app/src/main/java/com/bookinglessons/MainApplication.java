@@ -12,12 +12,8 @@ import com.facebook.soloader.SoLoader;
 import com.bookinglessons.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-<<<<<<< HEAD
-import com.facebook.react.modules.i18nmanager.I18nUtil;
-=======
 import com.facebook.react.modules.i18nmanager.I18nUtil; // => force RTL
 
->>>>>>> ea6a5fd8cb4937c442304ce624023a258db436dd
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -60,18 +56,10 @@ public class MainApplication extends Application implements ReactApplication {
     ReactFeatureFlags.useTurboModules = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-<<<<<<< HEAD
-
-
-    I18nUtil sharedI18nUtilInstance = I18nUtil.getInstance();
-  sharedI18nUtilInstance.forceRTL(this,true);
-  sharedI18nUtilInstance.allowRTL(this, true);
-=======
     // force RTL
     I18nUtil sharedI18nUtilInstance = I18nUtil.getInstance();
     sharedI18nUtilInstance.forceRTL(this, true);
     sharedI18nUtilInstance.allowRTL(this, true);
->>>>>>> ea6a5fd8cb4937c442304ce624023a258db436dd
   }
 
   /**

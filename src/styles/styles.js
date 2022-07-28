@@ -63,6 +63,14 @@ export const generalStyles = StyleSheet.create({
   textInputLeftStyle: {
     marginRight: PADDINGS.smPadding,
   },
+
+textInput_otp: {
+    width: RFValue(50),
+    height: RFValue(50),
+    backgroundColor: COLORS.primary_overlay,
+    borderRadius: 7,
+    textAlign: 'center',
+}
 });
 
 export const buttonsStyles = StyleSheet.create({

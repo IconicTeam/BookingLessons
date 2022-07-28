@@ -49,14 +49,4 @@ export const FONTS = {
   h6: RFValue(10),
 };
 
-export const ICONS = {
-  
-}
 
-export const FONTS = {
-
-}
-
-export const PADDINGS = {
-  
-}

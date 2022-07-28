@@ -6,13 +6,13 @@ import screens from './src/screens'; // get all pages in screens folder
 // native base
 import {NativeBaseProvider} from 'native-base';
 
-import OneTimePassword from './auth/OneTimePassword';
+import OneTimePassword from './src/screens/auth/forgetpassword/OneTimePassword';
 
 class App extends Component {
   render() {
     return (
       <NativeBaseProvider>
-        <screens.SignupScreen />
+        <screens.OneTimePassword />
       </NativeBaseProvider>
     );
   }
