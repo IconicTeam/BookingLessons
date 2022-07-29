@@ -65,7 +65,7 @@ export default class LoginScreen extends React.Component {
                     <components.Section>
                         <components.MainTextInput
                             placeholder={"رقم التلفون"}
-                            marginBottom={10}
+                            marginTop={10}
                             autoCapitalize="none"
                             keyboardType="number-pad"
                             maxLength={11}
@@ -81,7 +81,7 @@ export default class LoginScreen extends React.Component {
                         <components.MainTextInput
 
                             placeholder={"الرقم السرى"}
-                            marginBottom={5}
+                            marginTop={15}
                             value={this.state.user_password}
                             onChangeText={(value) => {
                                 this.setState({

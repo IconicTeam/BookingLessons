@@ -33,6 +33,12 @@ export const generalStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  avatarStyle: {
+    width: RFValue(100) >= 100 ? RFValue(100) : 80,
+    height: RFValue(100) >= 100 ? RFValue(100) : 80,
+    // minWidth: 80,
+    // minHeight: 80,
+  },
   badgeStyle: {
     width: RFValue(40),
     height: RFValue(40),
@@ -43,8 +49,8 @@ export const generalStyles = StyleSheet.create({
   },
   textInputContainerStyle: {
     width: '100%',
-    minHeight: 40,
-    height: RFValue(45),
+    // minHeight: 40,
+    height: RFValue(45) >= 45 ? RFValue(45) : 40,
     borderRadius: RADIUS.smRadius,
     backgroundColor: COLORS.gray_overlay,
     overflow: 'hidden',
@@ -66,13 +72,21 @@ export const generalStyles = StyleSheet.create({
   textInputLeftStyle: {
     marginRight: PADDINGS.smPadding,
   },
+
+textInput_otp: {
+    width: RFValue(50),
+    height: RFValue(50),
+    backgroundColor: COLORS.gray_overlay,
+    borderRadius: 7,
+    textAlign: 'center',
+}
 });
 
 export const buttonsStyles = StyleSheet.create({
   mainButtonStyle: {
     minWidth: '50%',
-    minHeight: 40,
-    height: RFValue(45),
+    // minHeight: 40,
+    height: RFValue(45) >= 45 ? RFValue(45) : 40,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: RADIUS.smRadius,
@@ -88,10 +102,10 @@ export const buttonsStyles = StyleSheet.create({
     padding: PADDINGS.xsPadding,
   },
   backButtonContainerStyle: {
-    minWidth: 35,
-    minHeight: 35,
-    width: RFValue(40),
-    height: RFValue(40),
+    // minWidth: 35,
+    // minHeight: 35,
+    width: RFValue(40) >= 40 ? RFValue(40) : 35,
+    height: RFValue(40) >= 40 ? RFValue(40) : 35,
     borderRadius: RADIUS.radius,
     overflow: 'hidden',
     marginRight: PADDINGS.mdPadding,
@@ -107,10 +121,10 @@ export const buttonsStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   smCircleStyle: {
-    minWidth: 35,
-    minHeight: 35,
-    width: RFValue(40),
-    height: RFValue(40),
+    // minWidth: 35,
+    // minHeight: 35,
+    width: RFValue(40) >= 40 ? RFValue(40) : 35,
+    height: RFValue(40) >= 40 ? RFValue(40) : 35,
     borderRadius: RADIUS.radius,
     overflow: 'hidden',
   },

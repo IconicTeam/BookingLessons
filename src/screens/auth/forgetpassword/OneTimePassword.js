@@ -13,9 +13,14 @@ import {
     Keyboard,
     Pressable,
 } from "react-native"
+import { RFValue } from "react-native-responsive-fontsize";
 
+import components from "../../../components";
+import Container from "../../../components/general/Container";
+import { generalStyles, textStyles, } from "../../../styles";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { COLORS, FONTS, ICONS, PADDINGS } from "../src/constants";
+import { COLORS, FONTS, ICONS, PADDINGS ,RADIUS} from "../../../constants";
+import { ReloadInstructions } from "react-native/Libraries/NewAppScreen";
 export default class OneTimePassword extends React.Component {
     constructor(props) {
         super(props);
@@ -64,53 +69,33 @@ export default class OneTimePassword extends React.Component {
     }
     render() {
         return (
-            <View style={styles.viewcontiner}>
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    style={{ flex: 1 }}
-                    contentContainerStyle={{
-                        paddingHorizontal: PADDINGS.padding,
-                    }}
-                    keyboardShouldPersistTaps={'always'}
-                >
-                    <View style={styles.view2}>
-                        <TouchableOpacity style={styles.touchableopicty1}>
-                            <Icon
-                                name="arrow-right"
-                                size={20}
-                            />
-                        </TouchableOpacity>
-                        <Text
-                            style=
-                            {{
-                                fontSize: 20,
-                                color: COLORS.black,
-                                marginLeft: 15,
-                                fontFamily: 'Tajawal',
-                            }}>
-                            أدخل الكود
-                        </Text>
-                    </View>
+            <>
+             < components.Container>
+                    {/* general StatusBar */}
+                    <components.GeneralStatusBar />
+
+                    {/* main header */}
+                    <components.MainHeader
+                        title={'أدخل الكود'}
+                        haveBackButton={true}
+                    />
                     <View style={styles.view3}>
                         <Image
                             source=
-                            {{
-                                uri: 'https://www.cellcom.eu/phpthumb/cache/uploads/sms_toepassingen/Wachtwoord-via-sms-1/w400h2400zc0q100/Wachtwoord-via-sms-1.png'
-                            }}
+                            {require("../../../assets/Images/otp.png")}
                             style=
                             {{
-                                width: 300,
-                                height: 300,
+                                width: RFValue(250),
+                                height: RFValue(200),
                                 resizeMode: "contain",
-                                
                             }}
                         />
                     </View>
                     <View style={styles.view3}>
-                        <Text style={{ fontSize: 25, fontWeight: "600", color: COLORS.black,fontFamily: 'Tajawal', }}>
+                        <Text style={textStyles.smTextStyle}>
                             من فضلك قم بإدخال
                         </Text>
-                        <Text style={{ fontSize: 25, fontWeight: "600", color: COLORS.black, marginTop: 10,fontFamily: 'Tajawal', }}>
+                        <Text style={textStyles.smTextStyle}>
                             الكود المرسل إليك المكون من 4 أرقام
                         </Text>
                     </View>
@@ -156,7 +141,7 @@ export default class OneTimePassword extends React.Component {
                                 }
                                 this.completetextinput();
                             }}
-                            style={styles.textInput}>
+                            style={generalStyles.textInput_otp}>
                         </TextInput>
                         <TextInput
                             maxLength={1}
@@ -180,7 +165,7 @@ export default class OneTimePassword extends React.Component {
                                 }
                                 this.completetextinput();
                             }}
-                            style={styles.textInput}>
+                            style={generalStyles.textInput_otp}>
                         </TextInput>
                         <TextInput
                             maxLength={1}
@@ -206,7 +191,7 @@ export default class OneTimePassword extends React.Component {
                                 }
                                 this.completetextinput();
                             }}
-                            style={styles.textInput}>
+                            style={generalStyles.textInput_otp}>
                         </TextInput>
                         <TextInput
                             maxLength={1}
@@ -220,54 +205,30 @@ export default class OneTimePassword extends React.Component {
                                 }
                                 this.completetextinput();
                             }}
-                            style={styles.textInput}>
+                            style={generalStyles.textInput_otp}>
                         </TextInput>
                     </View>
                     <View style={styles.view5}>
-                        <Text style={{
-                            fontSize: 20,
-                            color: '#000',
-                            fontFamily: 'Tajawal',
-                            marginRight: 3,
-                        }}>ألم تستلم الرمز؟ </Text>
+                        <Text style={textStyles.smTextStyle}>ألم تستلم الرمز؟ </Text>
                         <TouchableOpacity>
-                            <Text style={{
-                                fontSize: 20,
-                                color: COLORS.primary,
-                                fontFamily: 'Tajawal',
-                            }}>أعد إرسال الرمز</Text>
+                            <Text style={[textStyles.smTextStyle,{color:COLORS.primary}]}>أعد إرسال الرمز</Text>
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity
                         disabled={this.state.pressIn ? true : false}
-                        style={[styles.touchableopicty2, { backgroundColor: this.state.pressIn ? COLORS.gray : COLORS.primary, }]}>
+                        style={[styles.touchableopicty2, { backgroundColor: this.state.pressIn ? COLORS.disabled : COLORS.primary, }]}>
                         <Text
-                            style={{
-                                fontSize: 25,
-                                fontWeight: "600",
-                                color: COLORS.white
-                            }}
+                            style={[textStyles.lgTextStyle,{color:COLORS.white}]}
                         >تأكيد
                         </Text>
                     </TouchableOpacity>
-                </ScrollView >
-            </View >
+                </components.Container>
+            </>
+          
         )
     }
 }
 const styles = StyleSheet.create({
-    viewcontiner: {
-        backgroundColor: COLORS.background,
-        flex: 1
-
-    },
-    view2: {
-        flexDirection: "row",
-        width: "90%",
-        height: 30,
-        alignItems: "center",
-        marginVertical: 30,
-    },
     view3: {
         alignItems: "center",
         justifyContent: "center"
@@ -278,30 +239,12 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         marginTop: 30
     },
-    touchableopicty1: {
-        width: 40,
-        height: 40,
-        backgroundColor: '#eee',
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: 'flex-start',
-        elevation: 3,
-        borderRadius: 5,
-        marginLeft: 10
-    },
-    textInput: {
-        width: 50,
-        height: 50,
-        backgroundColor: COLORS.gray,
-        borderRadius: 5,
-        textAlign: 'center',
-    },
     touchableopicty2: {
-        width: 150,
-        height: 60,
+        width: RFValue(150),
+        height: RFValue(60),
         alignSelf: "center",
         marginTop: 30,
-        borderRadius: 12,
+        borderRadius:RADIUS.mdRadius,
         alignItems: "center",
         justifyContent: "center"
 
@@ -311,6 +254,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
-        marginTop:20
+        marginTop: 20
     },
 })
