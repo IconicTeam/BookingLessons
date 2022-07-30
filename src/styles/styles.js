@@ -14,11 +14,13 @@ export const generalStyles = StyleSheet.create({
   },
   headerStyle: {
     width: width,
-    padding: PADDINGS.mdPadding,
+    paddingHorizontal: PADDINGS.mdPadding,
+    paddingVertical: PADDINGS.smPadding,
     backgroundColor: COLORS.background,
     flexDirection: 'row',
     alignItems: 'center',
     zIndex: 5,
+    // elevation: 5,
   },
   sectionStyle: {
     width: '100%',
