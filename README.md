@@ -3,7 +3,7 @@ Booking Lessons for make it easy to students to book any lesson you need
 
 ## Screens
 #### TODO
-- [x] Auth
+- [x] ##### Auth
   - [ ] Login
   - [ ] Signup
   - [ ] EnterPhone
