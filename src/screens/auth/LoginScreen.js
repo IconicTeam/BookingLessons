@@ -32,9 +32,18 @@ export default class LoginScreen extends React.Component {
         this.state = {
             user_mobile: '',
             user_password: '',
+            secured_pass: true,
 
         }
     }
+
+
+    secured_pass() {
+        let securedPass = this.state.secured_pass;
+        securedPass = !securedPass;
+        this.setState({ secured_pass: securedPass });
+    }
+
 
 
     render() {
@@ -79,7 +88,6 @@ export default class LoginScreen extends React.Component {
                         />
 
                         <components.MainTextInput
-
                             placeholder={"الرقم السرى"}
                             marginTop={15}
                             value={this.state.user_password}
@@ -91,17 +99,23 @@ export default class LoginScreen extends React.Component {
                             autoCapitalize="none"
                             keyboardType="name-phone-pad"
                             blurOnSubmit={true}
-                            secureTextEntry={true}
+                            secureTextEntry={this.state.secured_pass}
                             left={
-                                <components.SmallCircleButton onPress={() => alert()}>
-                                    <Icon
-                                        name="eye-off"
-                                        size={ICONS.mdIcon}
-                                        color={COLORS.gray}
-                                    />
+                                <components.SmallCircleButton>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            this.secured_pass();
+                                        }}>
+                                        <Icon
+                                            name="eye-off"
+                                            size={ICONS.mdIcon}
+                                            color={COLORS.gray}
+                                        />
+                                    </TouchableOpacity>
                                 </components.SmallCircleButton>
                             }
                         />
+
                         <TouchableOpacity >
                             <Text style={{ textAlign: "right", color: COLORS.primary }}>هل نسيت الرقم السرى؟</Text>
                         </TouchableOpacity>
@@ -175,4 +189,9 @@ export default class LoginScreen extends React.Component {
     }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    erorMsg: {
+        alignSelf: 'center',
+        color: COLORS.error,
+    },
+});
