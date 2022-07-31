@@ -1,11 +1,21 @@
 # BookingLessons
 Booking Lessons for make it easy to students to book any lesson you need
 
-## Screens
+## Screens (Teacher)
 #### TODO
-- [x] ##### Auth
+- [ ] Auth
   - [ ] Login
-  - [ ] Signup
+  - [x] Signup
   - [ ] EnterPhone
   - [ ] OTP
   - [ ] ConfirmPassword
+
+- [ ] Home
+  - [ ] Dashboard (Home)
+    - [ ] Classes
+      - [ ] Groups (in this class)
+        - [ ] Students (in this group)
+    - [ ] AllStudents
+  - [ ] ReservationList
+  - [ ] Waiting
+  - [ ] Profile
