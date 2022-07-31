@@ -481,7 +481,7 @@ const SignupScreen = ({navigation}) => {
               }
             }}
             autoCapitalize="none"
-            keyboardType="number-pad"
+            keyboardType="phone-pad"
             blurOnSubmit={false}
             marginTop={PADDINGS.mdPadding}
             maxLength={userData.user_mobile.startsWith('+2') ? 13 : 11}
@@ -589,7 +589,9 @@ const SignupScreen = ({navigation}) => {
               }
             }}
             autoCapitalize="none"
-            keyboardType="name-phone-pad"
+            keyboardType={
+              passSecureTextEntry ? 'name-phone-pad' : 'visible-password'
+            }
             blurOnSubmit={false}
             marginTop={PADDINGS.mdPadding}
             // maxLength={50}
@@ -634,7 +636,9 @@ const SignupScreen = ({navigation}) => {
               }
             }}
             autoCapitalize="none"
-            keyboardType="name-phone-pad"
+            keyboardType={
+              confirmPassSecureTextEntry ? 'name-phone-pad' : 'visible-password'
+            }
             blurOnSubmit={true}
             marginTop={PADDINGS.mdPadding}
             // maxLength={50}
@@ -693,7 +697,7 @@ const SignupScreen = ({navigation}) => {
           <Text style={textStyles.smTextStyle}>{'لديك حساب بالفعل؟ '}</Text>
           <TouchableOpacity
             activeOpacity={0.4}
-            onPress={() => navigation.navigate('ConfirmPasswordScreen')}>
+            onPress={() => navigation.navigate('LoginScreen')}>
             <Text
               style={[
                 textStyles.smTextStyle,

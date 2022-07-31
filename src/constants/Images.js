@@ -1,5 +1,9 @@
-const image1 = require('../assets/icons/user.png');
+const login = require('../assets/images/login.png');
+const confirm = require('../assets/images/confirm.png');
+const otp = require('../assets/images/otp.png');
 
 export default {
-  image1,
+  login,
+  confirm,
+  otp,
 };

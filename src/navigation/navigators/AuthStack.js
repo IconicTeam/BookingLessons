@@ -12,7 +12,6 @@ const Stack = createStackNavigator();
 
 // import screens
 import screens from '../../screens';
-import ConfirmPasswordScreen from '../../screens/auth/ConfirmPasswordScreen';
 
 const AuthStack = () => {
   return (
@@ -26,16 +25,29 @@ const AuthStack = () => {
         transitionSpec: {
           open: {
             animation: 'timing',
+            config: {
+              delay: 0,
+              duration: 300,
+            },
           },
           close: {
             animation: 'timing',
+            config: {
+              delay: 0,
+              duration: 300,
+            },
           },
         },
       }}>
       <Stack.Screen name="SignupScreen" component={screens.SignupScreen} />
+      <Stack.Screen name="LoginScreen" component={screens.LoginScreen} />
+      <Stack.Screen
+        name="OneTimePasswordScreen"
+        component={screens.OneTimePasswordScreen}
+      />
       <Stack.Screen
         name="ConfirmPasswordScreen"
-        component={ConfirmPasswordScreen}
+        component={screens.ConfirmPasswordScreen}
       />
     </Stack.Navigator>
   );
