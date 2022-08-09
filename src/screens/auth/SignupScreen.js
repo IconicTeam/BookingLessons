@@ -7,10 +7,13 @@ import {
   StyleSheet,
   Text,
   View,
+  ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 
 // get all components ==> components
 import components from '../../components';
+
 // get all constants
 import {COLORS, ICONS, Icons, PADDINGS, RADIUS} from '../../constants';
 
@@ -18,7 +21,7 @@ import {COLORS, ICONS, Icons, PADDINGS, RADIUS} from '../../constants';
 import {buttonsStyles, generalStyles, textStyles} from '../../styles';
 
 // native base
-import {NativeBaseProvider, Avatar, ScrollView} from 'native-base';
+import {NativeBaseProvider, Avatar} from 'native-base';
 
 // Icons
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -388,9 +391,6 @@ const SignupScreen = ({navigation}) => {
   // return
   return (
     <components.Container>
-      {/* general StatusBar */}
-      <components.GeneralStatusBar />
-
       {/* main header */}
       <components.MainHeader
         navigation={navigation}
@@ -481,10 +481,10 @@ const SignupScreen = ({navigation}) => {
               }
             }}
             autoCapitalize="none"
-            keyboardType="number-pad"
+            keyboardType="phone-pad"
             blurOnSubmit={false}
             marginTop={PADDINGS.mdPadding}
-            maxLength={11}
+            maxLength={userData.user_mobile.startsWith('+2') ? 13 : 11}
             returnKeyType="next"
             secureTextEntry={false}
             onSubmitEditing={() => {
@@ -589,7 +589,9 @@ const SignupScreen = ({navigation}) => {
               }
             }}
             autoCapitalize="none"
-            keyboardType="name-phone-pad"
+            keyboardType={
+              passSecureTextEntry ? 'name-phone-pad' : 'visible-password'
+            }
             blurOnSubmit={false}
             marginTop={PADDINGS.mdPadding}
             // maxLength={50}
@@ -634,7 +636,9 @@ const SignupScreen = ({navigation}) => {
               }
             }}
             autoCapitalize="none"
-            keyboardType="name-phone-pad"
+            keyboardType={
+              confirmPassSecureTextEntry ? 'name-phone-pad' : 'visible-password'
+            }
             blurOnSubmit={true}
             marginTop={PADDINGS.mdPadding}
             // maxLength={50}
@@ -687,9 +691,13 @@ const SignupScreen = ({navigation}) => {
         </components.Section>
 
         {/* go to login screen */}
-        <components.Section type="center">
-          <Text style={textStyles.smTextStyle}>
-            {'لديك حساب بالفعل؟ '}
+        <components.Section
+          type="horizontal"
+          resStyle={{alignItems: 'center', justifyContent: 'center'}}>
+          <Text style={textStyles.smTextStyle}>{'لديك حساب بالفعل؟ '}</Text>
+          <TouchableOpacity
+            activeOpacity={0.4}
+            onPress={() => navigation.navigate('LoginScreen')}>
             <Text
               style={[
                 textStyles.smTextStyle,
@@ -698,7 +706,7 @@ const SignupScreen = ({navigation}) => {
               ]}>
               {'تسجيل دخول'}
             </Text>
-          </Text>
+          </TouchableOpacity>
         </components.Section>
       </ScrollView>
 

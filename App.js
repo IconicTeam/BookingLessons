@@ -1,25 +1,22 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React, { Component } from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import React, {Component} from 'react';
 
-import screens from './src/screens'; // get all pages in screens folder
-import auth from './src/screens/auth';
 // native base
-import { NativeBaseProvider } from 'native-base';
+import {NativeBaseProvider} from 'native-base';
 
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
-import ConfirmPasswordScreen from './src/screens/auth/ConfirmPasswordScreen';
-import LoginScreen from './src/screens/auth/LoginScreen';
-import SignupScreen from './src/screens/auth/SignupScreen';
+// navigation
+import ContainerNavigation from './src/navigation';
 
 class App extends Component {
   render() {
     return (
-
-      <NativeBaseProvider>
-        <LoginScreen />
-        {/* <SignupScreen /> */}
-      </NativeBaseProvider>
-
+      <SafeAreaProvider>
+        <NativeBaseProvider>
+          <ContainerNavigation></ContainerNavigation>
+        </NativeBaseProvider>
+      </SafeAreaProvider>
     );
   }
 }

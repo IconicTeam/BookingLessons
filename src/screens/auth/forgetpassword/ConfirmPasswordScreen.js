@@ -9,7 +9,7 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import {COLORS, FONTS, RADIUS} from '../../constants/Constants';
+import {COLORS, FONTS, Images, RADIUS} from '../../../constants';
 const {width, height} = Dimensions.get('screen');
 export class ConfirmPasswordScreen extends React.Component {
   render() {
@@ -26,10 +26,7 @@ export class ConfirmPasswordScreen extends React.Component {
               <Text style={styles.textHeaderStyle}>ادخل كلمة المرور</Text>
             </View>
             <View style={styles.imageViewStyle}>
-              <Image
-                style={styles.imageStyle}
-                source={require('../../assets/Images/confirm.png')}
-              />
+              <Image style={styles.imageStyle} source={Images.confirm} />
             </View>
             <View style={styles.viewTextStyle}>
               <Text style={styles.textStyle}>من فضلك قم بادخال الرقم</Text>

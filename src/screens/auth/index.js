@@ -1,12 +1,9 @@
 import SignupScreen from './SignupScreen';
 import LoginScreen from './LoginScreen';
-import ConfirmPasswordScreen from './ConfirmPasswordScreen';
-
+import forgetpassword from './forgetpassword';
 
 export default {
   SignupScreen,
   LoginScreen,
-  ConfirmPasswordScreen,
-
-
+  ...forgetpassword,
 };

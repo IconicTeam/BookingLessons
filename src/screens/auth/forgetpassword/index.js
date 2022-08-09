@@ -1,5 +1,7 @@
-import OneTimePassword from "./OneTimePassword";
+import OneTimePasswordScreen from './OneTimePasswordScreen';
+import ConfirmPasswordScreen from './ConfirmPasswordScreen';
 
-export default{
-    OneTimePassword
-}
+export default {
+  OneTimePasswordScreen,
+  ConfirmPasswordScreen,
+};

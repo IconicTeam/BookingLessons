@@ -5,7 +5,7 @@ import {COLORS} from '../../constants';
 
 const GeneralStatusBar = () => {
   return (
-    <StatusBar backgroundColor={COLORS.background} barStyle="dark-content" />
+    <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
   );
 };
 
