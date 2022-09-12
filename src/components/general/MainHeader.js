@@ -20,9 +20,7 @@ const MainHeader = ({navigation, title, haveBackButton, anotherButtons}) => {
         },
       ]}>
       {haveBackButton && (
-        <buttons.BackButton
-        // onPress={() => navigation.goBack()}
-        />
+        <buttons.BackButton onPress={() => navigation.goBack()} />
       )}
       <View style={{flex: 1}}>
         <Text style={[textStyles.lgTextStyle, textStyles.boldTextStyle]}>

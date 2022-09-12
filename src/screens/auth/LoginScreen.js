@@ -41,7 +41,11 @@ export default class LoginScreen extends React.Component {
         <components.GeneralStatusBar />
 
         {/* header */}
-        <components.MainHeader title={'تسجيل الدخول'} haveBackButton={false} />
+        <components.MainHeader
+          title={'تسجيل الدخول'}
+          haveBackButton={false}
+          navigation={this.props.navigation}
+        />
 
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -94,7 +98,11 @@ export default class LoginScreen extends React.Component {
                 </components.SmallCircleButton>
               }
             />
-            <TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.4}
+              onPress={() =>
+                this.props.navigation.navigate('ConfirmPasswordScreen')
+              }>
               <Text
                 style={[
                   textStyles.smTextStyle,
