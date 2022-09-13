@@ -101,7 +101,7 @@ export default class LoginScreen extends React.Component {
             <TouchableOpacity
               activeOpacity={0.4}
               onPress={() =>
-                this.props.navigation.navigate('ConfirmPasswordScreen')
+                this.props.navigation.navigate('OneTimePasswordScreen')
               }>
               <Text
                 style={[

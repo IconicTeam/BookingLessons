@@ -78,7 +78,11 @@ export default class OneTimePasswordScreen extends React.Component {
     return (
       <components.Container>
         {/* main header */}
-        <components.MainHeader title={'أدخل الكود'} haveBackButton={true} />
+        <components.MainHeader
+          title={'أدخل الكود'}
+          haveBackButton={true}
+          navigation={this.props.navigation}
+        />
         <View style={styles.view3}>
           <Image
             source={Images.otp}
