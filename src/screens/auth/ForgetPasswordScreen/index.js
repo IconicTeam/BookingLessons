@@ -221,7 +221,6 @@ function ForgetPasswordScreen(props) {
         </View>
         <View style={[styles.ButtonViewStyle]}>
           <components.MainButton
-            // disabled={onChangeConfirmPassword == onChangePassword}
             title={'تغيير كلمة المرور'}
             loading={signupLoading}
             loadingSize="large"
