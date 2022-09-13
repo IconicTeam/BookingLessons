@@ -7,6 +7,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 // navigation
 import ContainerNavigation from './src/navigation';
+import Screens from './src/screens';
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
         <NativeBaseProvider>
           <ContainerNavigation></ContainerNavigation>
         </NativeBaseProvider>
+        
       </SafeAreaProvider>
     );
   }
