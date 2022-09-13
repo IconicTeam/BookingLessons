@@ -101,7 +101,7 @@ export default class LoginScreen extends React.Component {
             <TouchableOpacity
               activeOpacity={0.4}
               onPress={() =>
-                this.props.navigation.navigate('ConfirmPasswordScreen')
+                this.props.navigation.navigate('PhoneConfirmScreen')
               }>
               <Text
                 style={[
@@ -143,11 +143,15 @@ export default class LoginScreen extends React.Component {
                 <Icon
                   name="facebook"
                   color={COLORS.primary}
-                  size={ICONS.lgIcon}
+                  size={RFValue(ICONS.mdIcon)}
                 />
               </TouchableOpacity>
               <TouchableOpacity>
-                <Icon name="google" color={COLORS.error} size={ICONS.lgIcon} />
+                <Icon
+                  name="google"
+                  color={COLORS.error}
+                  size={RFValue(ICONS.mdIcon)}
+                />
               </TouchableOpacity>
             </View>
           </components.Section>
