@@ -1,6 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {Component} from 'react';
-import ForgetPasswordScreen from './src/screens/auth/ForgetPasswordScreen';
 // native base
 import {NativeBaseProvider} from 'native-base';
 
@@ -12,14 +11,11 @@ import ContainerNavigation from './src/navigation';
 class App extends Component {
   render() {
     return (
-      <>
-        <ForgetPasswordScreen />
-      </>
-      // <SafeAreaProvider>
-      //   <NativeBaseProvider>
-      //     <ContainerNavigation></ContainerNavigation>
-      //   </NativeBaseProvider>
-      // </SafeAreaProvider>
+      <SafeAreaProvider>
+        <NativeBaseProvider>
+          <ContainerNavigation></ContainerNavigation>
+        </NativeBaseProvider>
+      </SafeAreaProvider>
     );
   }
 }
