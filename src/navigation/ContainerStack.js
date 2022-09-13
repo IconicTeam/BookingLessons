@@ -5,6 +5,7 @@ import React from 'react';
 import {
   createStackNavigator,
   CardStyleInterpolators,
+  TransitionPresets,
 } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
@@ -19,7 +20,24 @@ const ContainerStack = () => {
         headerShown: false,
         animationEnabled: true,
         gestureEnabled: true,
-        cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid,
+        // cardStyleInterpolator: CardStyleInterpolators.forBottomSheetAndroid, // for animations
+        ...TransitionPresets.SlideFromRightIOS, // for animations
+        transitionSpec: {
+          open: {
+            animation: 'timing',
+            config: {
+              delay: 0,
+              duration: 400,
+            },
+          },
+          close: {
+            animation: 'timing',
+            config: {
+              delay: 0,
+              duration: 400,
+            },
+          },
+        },
       }}>
       <Stack.Screen name="AuthStack" component={AuthStack} />
     </Stack.Navigator>

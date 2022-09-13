@@ -27,20 +27,20 @@ const AuthStack = () => {
             animation: 'timing',
             config: {
               delay: 0,
-              duration: 300,
+              duration: 400,
             },
           },
           close: {
             animation: 'timing',
             config: {
               delay: 0,
-              duration: 300,
+              duration: 400,
             },
           },
         },
       }}>
-      <Stack.Screen name="SignupScreen" component={screens.SignupScreen} />
       <Stack.Screen name="LoginScreen" component={screens.LoginScreen} />
+      <Stack.Screen name="SignupScreen" component={screens.SignupScreen} />
       <Stack.Screen
         name="OneTimePasswordScreen"
         component={screens.OneTimePasswordScreen}

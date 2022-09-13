@@ -44,6 +44,9 @@ const MainTextInput = ({
         autoCapitalize={autoCapitalize}
         placeholderTextColor={COLORS.gray}
         onEndEditing={onEndEditing}
+        // multiline={true}
+        // numberOfLines={1}
+        scrollEnabled={false}
       />
       {left}
     </View>
