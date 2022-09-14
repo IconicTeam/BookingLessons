@@ -105,7 +105,7 @@ function PhoneConfirmScreen(props) {
         <View style={[styles.ButtonViewStyle]}>
           <components.MainButton
             title={'ارسال  '}
-            onPress={() => props.navigation.navigate('ForgetPasswordScreen')}
+            onPress={() => props.navigation.navigate('OneTimePasswordScreen')}
           />
         </View>
       </ScrollView>
