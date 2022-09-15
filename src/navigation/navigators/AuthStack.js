@@ -53,6 +53,10 @@ const AuthStack = () => {
         name="ForgetPasswordScreen"
         component={screens.ForgetPasswordScreen}
       />
+      <Stack.Screen
+        name="ConfirmPasswordScreen"
+        component={screens.ConfirmPasswordScreen}
+      />
     </Stack.Navigator>
   );
 };

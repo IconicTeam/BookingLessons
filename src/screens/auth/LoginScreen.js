@@ -12,18 +12,18 @@ import {
 
 import components from '../../components';
 // get all constants
-import {COLORS, ICONS, Icons, Images, PADDINGS} from '../../constants';
+import { COLORS, ICONS, Icons, Images, PADDINGS } from '../../constants';
 
 // styles
-import {buttonsStyles, generalStyles, textStyles} from '../../styles';
+import { buttonsStyles, generalStyles, textStyles } from '../../styles';
 
 // native base
-import {NativeBaseProvider, Avatar, ScrollView} from 'native-base';
+import { NativeBaseProvider, Avatar, ScrollView } from 'native-base';
 
 // Icons
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {RFValue} from 'react-native-responsive-fontsize';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -31,7 +31,48 @@ export default class LoginScreen extends React.Component {
     this.state = {
       user_mobile: '',
       user_password: '',
+      passwordError: "",
+      mobileError: "",
+      visible_password: true
     };
+  }
+
+  // password
+  check_Pass() {
+
+    let error = this.state.passwordError
+    let password = this.state.user_password
+
+
+    if (password.trim().length < 6 && password.trim().length != 0) {
+      error = 'يجب تكون كلمة السر أكبر من أو تساوى 6 أحرف!'
+
+    } else {
+      error = ""
+
+    }
+
+    this.setState({
+      passwordError: error
+    })
+  };
+
+  // mobile
+  check_mobile(value) {
+    let error = this.state.mobileError
+    let mobile = this.state.user_mobile
+
+    let reg = /^(\+201|01){1}[0-2,5][0-9]{8}$/;
+    if (reg.test(value.trim()) == false && value.trim().length != 0) {
+      error = 'برجاء ادخال رقم صالح!'
+
+    } else {
+      error = ''
+    }
+
+    this.setState({
+      mobileError: error
+    })
   }
 
   render() {
@@ -50,7 +91,7 @@ export default class LoginScreen extends React.Component {
         <ScrollView
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled">
-          <View style={{alignItems: 'center'}}>
+          <View style={{ alignItems: 'center' }}>
             <Image
               source={Images.login}
               style={{
@@ -72,11 +113,26 @@ export default class LoginScreen extends React.Component {
                 this.setState({
                   user_mobile: value,
                 });
+
               }}
+              onEndEditing={e => this.check_mobile(e.nativeEvent.text)}
             />
+            <Text
+              style={[
+                textStyles.smTextStyle,
+                {
+                  color: COLORS.error,
+                  marginLeft: PADDINGS.xsPadding,
+                  paddingTop: PADDINGS.xsPadding,
+                  alignSelf: 'flex-start',
+                },
+              ]}>
+              {this.state.mobileError}
+            </Text>
 
             <components.MainTextInput
               placeholder={'الرقم السرى'}
+
               marginTop={15}
               value={this.state.user_password}
               onChangeText={value => {
@@ -86,18 +142,41 @@ export default class LoginScreen extends React.Component {
               }}
               autoCapitalize="none"
               keyboardType="name-phone-pad"
-              blurOnSubmit={true}
-              secureTextEntry={true}
+              blurOnSubmit={false}
+              secureTextEntry={this.state.visible_password}
               left={
-                <components.SmallCircleButton onPress={() => alert()}>
+                <components.SmallCircleButton
+                  onPress={(
+                  ) => this.setState({
+                    visible_password: !this.state.visible_password
+                  })}>
                   <Icon
-                    name="eye-off"
+                    name={this.state.visible_password ? 'eye-off' : 'eye'}
                     size={ICONS.mdIcon}
-                    color={COLORS.gray}
+                    color={this.state.visible_password ? COLORS.gray : COLORS.primary}
                   />
                 </components.SmallCircleButton>
               }
+              onEndEditing={e => this.check_Pass(e.nativeEvent.text)}
             />
+
+            {
+
+
+              < Text
+                style={[
+                  textStyles.smTextStyle,
+                  {
+                    color: COLORS.error,
+                    marginLeft: PADDINGS.xsPadding,
+                    paddingTop: PADDINGS.xsPadding,
+                    alignSelf: 'flex-start',
+                  },
+                ]}>
+                {this.state.passwordError}
+              </Text>
+            }
+
             <TouchableOpacity
               activeOpacity={0.4}
               onPress={() =>
@@ -124,9 +203,17 @@ export default class LoginScreen extends React.Component {
               title="تسجيل الدخول"
               width={'100%'}
               // type="disabled"
-              // onPress={}
+              onPress={() => {
+
+                this.check_Pass(this.state.user_password)
+                this.check_mobile(this.state.user_mobile)
+              }}
+
+              disabled={true ?
+                (this.state.user_mobile == "" || this.state.user_password == "") :
+                (this.state.user_mobile != "" || this.state.user_password != "")}
             />
-            <View style={{alignItems: 'center', marginVertical: 20}}>
+            <View style={{ alignItems: 'center', marginVertical: 20 }}>
               <Text style={textStyles.smTextStyle}>او باستخدام</Text>
             </View>
             <View
@@ -175,7 +262,7 @@ export default class LoginScreen extends React.Component {
                   style={[
                     textStyles.smTextStyle,
                     textStyles.boldTextStyle,
-                    {color: COLORS.primary},
+                    { color: COLORS.primary },
                   ]}>
                   {' '}
                   إنشاء حساب
@@ -184,7 +271,7 @@ export default class LoginScreen extends React.Component {
             </View>
           </components.Section>
         </ScrollView>
-      </components.Container>
+      </components.Container >
     );
   }
 }

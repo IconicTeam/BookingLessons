@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {View, Text, Image, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import components from '../../../components';
@@ -7,7 +7,7 @@ import {ICONS, COLORS, PADDINGS} from '../../../constants';
 import {styles} from './styles';
 import {buttonsStyles, generalStyles, textStyles} from '../../../styles';
 
-function ForgetPasswordScreen(props) {
+function ForgetPasswordScreen({navigation}) {
   const [userData, setUserData] = useState({
     user_id: '1',
     user_token: 'authToken',
@@ -19,6 +19,10 @@ function ForgetPasswordScreen(props) {
     user_confirm_password: '',
     user_image: '',
   });
+
+  const [disableTextInput1, setDisableTextInput1] = useState(true);
+  const [disableTextInput2, setDisableTextInput2] = useState(true);
+  const [disabled, setDisabled] = useState(true);
 
   // inputs refs
   const firstTextInputRef = useRef();
@@ -108,6 +112,15 @@ function ForgetPasswordScreen(props) {
       return false;
     } else {
       setConfirmPassError('');
+      setDisableTextInput2(false);
+      return true;
+    }
+  };
+
+  const handleDisabled = () => {
+    if (disableTextInput1 === false && disableTextInput2 === false) {
+      return false;
+    } else {
       return true;
     }
   };
@@ -117,7 +130,7 @@ function ForgetPasswordScreen(props) {
       <components.MainHeader
         title={'ادخل كلمة المرور'}
         haveBackButton={true}
-        navigation={navigator}
+        navigation={navigation}
       />
       <ScrollView>
         <Image
@@ -134,6 +147,7 @@ function ForgetPasswordScreen(props) {
               onChangeUserPassword(value);
               if (onChangePassword(value)) {
                 setPasswordError('');
+                setDisableTextInput1(false);
               }
             }}
             autoCapitalize="none"
@@ -180,6 +194,7 @@ function ForgetPasswordScreen(props) {
               onChangeUserConfirmPassword(value);
               if (onChangeConfirmPassword(value)) {
                 setConfirmPassError('');
+                setDisableTextInput2(true);
               }
             }}
             autoCapitalize="none"
@@ -221,6 +236,7 @@ function ForgetPasswordScreen(props) {
         </View>
         <View style={[styles.ButtonViewStyle]}>
           <components.MainButton
+            disabled={handleDisabled()}
             title={'تغيير كلمة المرور'}
             loading={signupLoading}
             loadingSize="large"
