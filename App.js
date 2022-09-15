@@ -1,5 +1,5 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React, {Component} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 // native base
 import {NativeBaseProvider} from 'native-base';
 
