@@ -13,6 +13,7 @@ import com.bookinglessons.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.facebook.react.modules.i18nmanager.I18nUtil; // => force RTL
+// import com.devfd.RNGeocoder.RNGeocoderPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -28,7 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
       List<ReactPackage> packages = new PackageList(this).getPackages();
       // Packages that cannot be autolinked yet can be added manually here, for
       // example:
-      // packages.add(new MyReactNativePackage());
+      // packages.add(new RNGeocoderPackage());
       return packages;
     }
 

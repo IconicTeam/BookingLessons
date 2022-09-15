@@ -1,6 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {Component} from 'react';
-
 // native base
 import {NativeBaseProvider} from 'native-base';
 
@@ -8,6 +7,10 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 // navigation
 import ContainerNavigation from './src/navigation';
+
+import {enableLatestRenderer} from 'react-native-maps';
+
+enableLatestRenderer();
 
 class App extends Component {
   render() {

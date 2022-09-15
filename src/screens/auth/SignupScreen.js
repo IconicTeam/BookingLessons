@@ -9,13 +9,22 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  Modal,
 } from 'react-native';
 
 // get all components ==> components
 import components from '../../components';
 
 // get all constants
-import {COLORS, ICONS, Icons, PADDINGS, RADIUS} from '../../constants';
+import {
+  ApiKey,
+  COLORS,
+  FONTS,
+  ICONS,
+  Icons,
+  PADDINGS,
+  RADIUS,
+} from '../../constants';
 
 // styles
 import {buttonsStyles, generalStyles, textStyles} from '../../styles';
@@ -33,6 +42,14 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import ImagePicker from 'react-native-image-crop-picker';
 
 import {RFValue} from 'react-native-responsive-fontsize';
+
+// maps & geolocation & geocoder
+import MapView, {Callout, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
+import Geocoder from 'react-native-geocoder';
+
+// Dimensions
+const {width, height} = Dimensions.get('screen');
 
 const SignupScreen = ({navigation}) => {
   // state...
@@ -67,6 +84,22 @@ const SignupScreen = ({navigation}) => {
     useState(false);
   // signup loading
   const [signupLoading, setSignupLoading] = useState(false);
+  // map loading
+  const [mapLoading, setMapLoading] = useState(false);
+
+  const [initialRegion, setInitialRegion] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const mapRef = useRef(null);
+  const markerRef = useRef(null);
+
+  const didMount = useRef(false);
 
   // passowrd show
   const [passSecureTextEntry, setPassSecureTextEntry] = useState(true);
@@ -317,7 +350,7 @@ const SignupScreen = ({navigation}) => {
 
   const onEndEditingSubject = value => {
     // subject
-    if (value.trim().length == 0 && value.trim().length != 0) {
+    if (value.trim().length == 0) {
       setSubjectError('المادة مطلوبة!');
       return false;
     } else {
@@ -328,7 +361,7 @@ const SignupScreen = ({navigation}) => {
 
   const onEndEditingLocation = value => {
     // location
-    if (value.trim().length == 0) {
+    if (value.trim().length < 2 && value.trim().length != 0) {
       setLocationError('مكان الدرس مطلوب!');
       return false;
     } else {
@@ -388,6 +421,70 @@ const SignupScreen = ({navigation}) => {
     return value.trim() == userData.user_password.trim();
   };
 
+  // get current position
+  const getCurrentPosition = async () => {
+    setMapLoading(true);
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    );
+
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log('You can use the ACCESS_FINE_LOCATION');
+      Geolocation.getCurrentPosition(info => {
+        console.log('info: ', info);
+        setInitialRegion({
+          ...initialRegion,
+          latitude: info.coords.latitude,
+          longitude: info.coords.longitude,
+        });
+        getAddress(info.coords.latitude, info.coords.longitude);
+      });
+      setModalVisible(!modalVisible);
+    } else {
+      console.log('ACCESS_FINE_LOCATION permission denied');
+    }
+    setMapLoading(false);
+  };
+
+  // on marker drag end
+  const onDragEnd = e => {
+    setInitialRegion({...initialRegion, ...e.nativeEvent.coordinate});
+  };
+
+  useEffect(() => {
+    // Return early, if this is the first render:
+    if (!didMount.current) {
+      didMount.current = true;
+      return;
+    }
+    // Paste code to be executed on subsequent renders:
+    getAddress(initialRegion.latitude, initialRegion.longitude);
+    mapRef?.current?.animateToRegion(initialRegion, 500);
+  }, [initialRegion]);
+
+  // on map press
+  const onMapPress = e => {
+    markerRef?.current?.animateMarkerToCoordinate(
+      e.nativeEvent.coordinate,
+      500,
+    );
+    setInitialRegion({...initialRegion, ...e.nativeEvent.coordinate});
+  };
+
+  // get address
+  const getAddress = async (lat, lng) => {
+    await Geocoder.fallbackToGoogle(ApiKey);
+    let res = await Geocoder.geocodePosition({lat, lng});
+    console.log(res[0].streetName);
+    var address = '';
+    if (res[0].streetName != null && res[0].streetName != 'Unnamed Road') {
+      address = `${res[0].streetName}, ${res[0].locality}, ${res[0].country}`;
+    } else {
+      address = `${res[0].locality}, ${res[0].country}`;
+    }
+    setUserData({...userData, user_lesson_location: address});
+  };
+
   // return
   return (
     <components.Container>
@@ -434,247 +531,261 @@ const SignupScreen = ({navigation}) => {
         </components.Section>
 
         {/* inputs section */}
-        <components.Section type="center">
-          <components.MainTextInput
-            placeholder="اسم حضرتكم"
-            value={userData.user_name}
-            onChangeText={value => {
-              onChangeUserName(value);
-              if (onChangeName(value)) {
-                setNameError('');
+        <TouchableOpacity activeOpacity={1}>
+          <components.Section type="center">
+            <components.MainTextInput
+              placeholder="اسم حضرتكم"
+              value={userData.user_name}
+              onChangeText={value => {
+                onChangeUserName(value);
+                if (onChangeName(value)) {
+                  setNameError('');
+                }
+              }}
+              autoCapitalize="words"
+              keyboardType="default"
+              blurOnSubmit={false}
+              // marginTop={PADDINGS.mdPadding}
+              maxLength={25}
+              returnKeyType="next"
+              secureTextEntry={false}
+              onSubmitEditing={() => {
+                secondTextInputRef.current.focus();
+              }}
+              onEndEditing={e => onEndEditingName(e.nativeEvent.text)}
+            />
+            {nameError && (
+              <Text
+                style={[
+                  textStyles.smTextStyle,
+                  {
+                    color: COLORS.error,
+                    marginLeft: PADDINGS.xsPadding,
+                    paddingTop: PADDINGS.xsPadding,
+                    alignSelf: 'flex-start',
+                  },
+                ]}>
+                {nameError}
+              </Text>
+            )}
+            <components.MainTextInput
+              inputRef={secondTextInputRef}
+              placeholder="رقم الموبايل"
+              value={userData.user_mobile}
+              onChangeText={value => {
+                onChangeUserMobile(value);
+                if (onChangeMobile(value)) {
+                  setMobileError('');
+                }
+              }}
+              autoCapitalize="none"
+              keyboardType="phone-pad"
+              blurOnSubmit={false}
+              marginTop={PADDINGS.mdPadding}
+              maxLength={userData.user_mobile.startsWith('+2') ? 13 : 11}
+              returnKeyType="next"
+              secureTextEntry={false}
+              onSubmitEditing={() => {
+                thirdTextInputRef.current.focus();
+              }}
+              onEndEditing={e => onEndEditingMobile(e.nativeEvent.text)}
+            />
+            {mobileError && (
+              <Text
+                style={[
+                  textStyles.smTextStyle,
+                  {
+                    color: COLORS.error,
+                    marginLeft: PADDINGS.xsPadding,
+                    paddingTop: PADDINGS.xsPadding,
+                    alignSelf: 'flex-start',
+                  },
+                ]}>
+                {mobileError}
+              </Text>
+            )}
+            <components.MainTextInput
+              inputRef={thirdTextInputRef}
+              placeholder="المادة"
+              value={userData.user_subject}
+              onChangeText={value => {
+                onChangeUserSubject(value);
+                if (onChangesSubject(value)) {
+                  setSubjectError('');
+                }
+              }}
+              autoCapitalize="words"
+              keyboardType="default"
+              blurOnSubmit={false}
+              marginTop={PADDINGS.mdPadding}
+              maxLength={25}
+              returnKeyType="next"
+              secureTextEntry={false}
+              onSubmitEditing={() => {
+                fourthTextInputRef.current.focus();
+              }}
+              onEndEditing={e => onEndEditingSubject(e.nativeEvent.text)}
+            />
+            {subjectError && (
+              <Text
+                style={[
+                  textStyles.smTextStyle,
+                  {
+                    color: COLORS.error,
+                    marginLeft: PADDINGS.xsPadding,
+                    paddingTop: PADDINGS.xsPadding,
+                    alignSelf: 'flex-start',
+                  },
+                ]}>
+                {subjectError}
+              </Text>
+            )}
+            <components.MainTextInput
+              inputRef={fourthTextInputRef}
+              placeholder="عنوان الدرس"
+              value={userData.user_lesson_location}
+              onChangeText={value => {
+                onChangeUserLocation(value);
+                if (onChangeLocation(value)) {
+                  setLocationError('');
+                }
+              }}
+              autoCapitalize="none"
+              keyboardType="default"
+              blurOnSubmit={false}
+              marginTop={PADDINGS.mdPadding}
+              // maxLength={50}
+              returnKeyType="next"
+              secureTextEntry={false}
+              onSubmitEditing={() => {
+                fifthTextInputRef.current.focus();
+              }}
+              left={
+                <components.SmallCircleButton onPress={getCurrentPosition}>
+                  <Icon
+                    name={'google-maps'}
+                    size={ICONS.mdIcon}
+                    color={COLORS.gray}
+                  />
+                </components.SmallCircleButton>
               }
-            }}
-            autoCapitalize="words"
-            keyboardType="default"
-            blurOnSubmit={false}
-            // marginTop={PADDINGS.mdPadding}
-            maxLength={25}
-            returnKeyType="next"
-            secureTextEntry={false}
-            onSubmitEditing={() => {
-              secondTextInputRef.current.focus();
-            }}
-            onEndEditing={e => onEndEditingName(e.nativeEvent.text)}
-          />
-          {nameError && (
-            <Text
-              style={[
-                textStyles.smTextStyle,
-                {
-                  color: COLORS.error,
-                  marginLeft: PADDINGS.xsPadding,
-                  paddingTop: PADDINGS.xsPadding,
-                  alignSelf: 'flex-start',
-                },
-              ]}>
-              {nameError}
-            </Text>
-          )}
-          <components.MainTextInput
-            inputRef={secondTextInputRef}
-            placeholder="رقم الموبايل"
-            value={userData.user_mobile}
-            onChangeText={value => {
-              onChangeUserMobile(value);
-              if (onChangeMobile(value)) {
-                setMobileError('');
+              onEndEditing={e => onEndEditingLocation(e.nativeEvent.text)}
+            />
+            {locationError && (
+              <Text
+                style={[
+                  textStyles.smTextStyle,
+                  {
+                    color: COLORS.error,
+                    marginLeft: PADDINGS.xsPadding,
+                    paddingTop: PADDINGS.xsPadding,
+                    alignSelf: 'flex-start',
+                  },
+                ]}>
+                {locationError}
+              </Text>
+            )}
+            <components.MainTextInput
+              inputRef={fifthTextInputRef}
+              placeholder="كلمة المرور"
+              value={userData.user_password}
+              onChangeText={value => {
+                onChangeUserPassword(value);
+                if (onChangePassword(value)) {
+                  setPasswordError('');
+                }
+              }}
+              autoCapitalize="none"
+              keyboardType={
+                passSecureTextEntry ? 'name-phone-pad' : 'visible-password'
               }
-            }}
-            autoCapitalize="none"
-            keyboardType="phone-pad"
-            blurOnSubmit={false}
-            marginTop={PADDINGS.mdPadding}
-            maxLength={userData.user_mobile.startsWith('+2') ? 13 : 11}
-            returnKeyType="next"
-            secureTextEntry={false}
-            onSubmitEditing={() => {
-              thirdTextInputRef.current.focus();
-            }}
-            onEndEditing={e => onEndEditingMobile(e.nativeEvent.text)}
-          />
-          {mobileError && (
-            <Text
-              style={[
-                textStyles.smTextStyle,
-                {
-                  color: COLORS.error,
-                  marginLeft: PADDINGS.xsPadding,
-                  paddingTop: PADDINGS.xsPadding,
-                  alignSelf: 'flex-start',
-                },
-              ]}>
-              {mobileError}
-            </Text>
-          )}
-          <components.MainTextInput
-            inputRef={thirdTextInputRef}
-            placeholder="المادة"
-            value={userData.user_subject}
-            onChangeText={value => {
-              onChangeUserSubject(value);
-              if (onChangesSubject(value)) {
-                setSubjectError('');
+              blurOnSubmit={false}
+              marginTop={PADDINGS.mdPadding}
+              // maxLength={50}
+              returnKeyType="next"
+              secureTextEntry={passSecureTextEntry}
+              onSubmitEditing={() => {
+                sixTextInputRef.current.focus();
+              }}
+              left={
+                <components.SmallCircleButton onPress={handleVisiblePass}>
+                  <Icon
+                    name={passSecureTextEntry ? 'eye-off' : 'eye'}
+                    size={ICONS.mdIcon}
+                    color={passSecureTextEntry ? COLORS.gray : COLORS.primary}
+                  />
+                </components.SmallCircleButton>
               }
-            }}
-            autoCapitalize="words"
-            keyboardType="default"
-            blurOnSubmit={false}
-            marginTop={PADDINGS.mdPadding}
-            maxLength={25}
-            returnKeyType="next"
-            secureTextEntry={false}
-            onSubmitEditing={() => {
-              fourthTextInputRef.current.focus();
-            }}
-            onEndEditing={e => onEndEditingSubject(e.nativeEvent.text)}
-          />
-          {subjectError && (
-            <Text
-              style={[
-                textStyles.smTextStyle,
-                {
-                  color: COLORS.error,
-                  marginLeft: PADDINGS.xsPadding,
-                  paddingTop: PADDINGS.xsPadding,
-                  alignSelf: 'flex-start',
-                },
-              ]}>
-              {subjectError}
-            </Text>
-          )}
-          <components.MainTextInput
-            inputRef={fourthTextInputRef}
-            placeholder="عنوان الدرس"
-            value={userData.user_lesson_location}
-            onChangeText={value => {
-              onChangeUserLocation(value);
-              if (onChangeLocation(value)) {
-                setLocationError('');
+              onEndEditing={e => onEndEditingPass(e.nativeEvent.text)}
+            />
+            {passwordError && (
+              <Text
+                style={[
+                  textStyles.smTextStyle,
+                  {
+                    color: COLORS.error,
+                    marginLeft: PADDINGS.xsPadding,
+                    paddingTop: PADDINGS.xsPadding,
+                    alignSelf: 'flex-start',
+                  },
+                ]}>
+                {passwordError}
+              </Text>
+            )}
+            <components.MainTextInput
+              inputRef={sixTextInputRef}
+              placeholder="تأكيد كلمة المرور"
+              value={userData.user_confirm_password}
+              onChangeText={value => {
+                onChangeUserConfirmPassword(value);
+                if (onChangeConfirmPassword(value)) {
+                  setConfirmPassError('');
+                }
+              }}
+              autoCapitalize="none"
+              keyboardType={
+                confirmPassSecureTextEntry
+                  ? 'name-phone-pad'
+                  : 'visible-password'
               }
-            }}
-            autoCapitalize="none"
-            keyboardType="default"
-            blurOnSubmit={false}
-            marginTop={PADDINGS.mdPadding}
-            // maxLength={50}
-            returnKeyType="next"
-            secureTextEntry={false}
-            onSubmitEditing={() => {
-              fifthTextInputRef.current.focus();
-            }}
-            onEndEditing={e => onEndEditingLocation(e.nativeEvent.text)}
-          />
-          {locationError && (
-            <Text
-              style={[
-                textStyles.smTextStyle,
-                {
-                  color: COLORS.error,
-                  marginLeft: PADDINGS.xsPadding,
-                  paddingTop: PADDINGS.xsPadding,
-                  alignSelf: 'flex-start',
-                },
-              ]}>
-              {locationError}
-            </Text>
-          )}
-          <components.MainTextInput
-            inputRef={fifthTextInputRef}
-            placeholder="كلمة المرور"
-            value={userData.user_password}
-            onChangeText={value => {
-              onChangeUserPassword(value);
-              if (onChangePassword(value)) {
-                setPasswordError('');
+              blurOnSubmit={true}
+              marginTop={PADDINGS.mdPadding}
+              // maxLength={50}
+              returnKeyType="done"
+              secureTextEntry={confirmPassSecureTextEntry}
+              // onSubmitEditing={() => {
+              //   sixTextInputRef.current.focus();
+              // }}
+              left={
+                <components.SmallCircleButton
+                  onPress={handleVisibleConfirmPass}>
+                  <Icon
+                    name={confirmPassSecureTextEntry ? 'eye-off' : 'eye'}
+                    size={ICONS.mdIcon}
+                    color={
+                      confirmPassSecureTextEntry ? COLORS.gray : COLORS.primary
+                    }
+                  />
+                </components.SmallCircleButton>
               }
-            }}
-            autoCapitalize="none"
-            keyboardType={
-              passSecureTextEntry ? 'name-phone-pad' : 'visible-password'
-            }
-            blurOnSubmit={false}
-            marginTop={PADDINGS.mdPadding}
-            // maxLength={50}
-            returnKeyType="next"
-            secureTextEntry={passSecureTextEntry}
-            onSubmitEditing={() => {
-              sixTextInputRef.current.focus();
-            }}
-            left={
-              <components.SmallCircleButton onPress={handleVisiblePass}>
-                <Icon
-                  name={passSecureTextEntry ? 'eye-off' : 'eye'}
-                  size={ICONS.mdIcon}
-                  color={passSecureTextEntry ? COLORS.gray : COLORS.primary}
-                />
-              </components.SmallCircleButton>
-            }
-            onEndEditing={e => onEndEditingPass(e.nativeEvent.text)}
-          />
-          {passwordError && (
-            <Text
-              style={[
-                textStyles.smTextStyle,
-                {
-                  color: COLORS.error,
-                  marginLeft: PADDINGS.xsPadding,
-                  paddingTop: PADDINGS.xsPadding,
-                  alignSelf: 'flex-start',
-                },
-              ]}>
-              {passwordError}
-            </Text>
-          )}
-          <components.MainTextInput
-            inputRef={sixTextInputRef}
-            placeholder="تأكيد كلمة المرور"
-            value={userData.user_confirm_password}
-            onChangeText={value => {
-              onChangeUserConfirmPassword(value);
-              if (onChangeConfirmPassword(value)) {
-                setConfirmPassError('');
-              }
-            }}
-            autoCapitalize="none"
-            keyboardType={
-              confirmPassSecureTextEntry ? 'name-phone-pad' : 'visible-password'
-            }
-            blurOnSubmit={true}
-            marginTop={PADDINGS.mdPadding}
-            // maxLength={50}
-            returnKeyType="done"
-            secureTextEntry={confirmPassSecureTextEntry}
-            // onSubmitEditing={() => {
-            //   sixTextInputRef.current.focus();
-            // }}
-            left={
-              <components.SmallCircleButton onPress={handleVisibleConfirmPass}>
-                <Icon
-                  name={confirmPassSecureTextEntry ? 'eye-off' : 'eye'}
-                  size={ICONS.mdIcon}
-                  color={
-                    confirmPassSecureTextEntry ? COLORS.gray : COLORS.primary
-                  }
-                />
-              </components.SmallCircleButton>
-            }
-            onEndEditing={e => onEndEditingConfirmPass(e.nativeEvent.text)}
-          />
-          {confirmPassError && (
-            <Text
-              style={[
-                textStyles.smTextStyle,
-                {
-                  color: COLORS.error,
-                  marginLeft: PADDINGS.xsPadding,
-                  paddingTop: PADDINGS.xsPadding,
-                  alignSelf: 'flex-start',
-                },
-              ]}>
-              {confirmPassError}
-            </Text>
-          )}
-        </components.Section>
+              onEndEditing={e => onEndEditingConfirmPass(e.nativeEvent.text)}
+            />
+            {confirmPassError && (
+              <Text
+                style={[
+                  textStyles.smTextStyle,
+                  {
+                    color: COLORS.error,
+                    marginLeft: PADDINGS.xsPadding,
+                    paddingTop: PADDINGS.xsPadding,
+                    alignSelf: 'flex-start',
+                  },
+                ]}>
+                {confirmPassError}
+              </Text>
+            )}
+          </components.Section>
+        </TouchableOpacity>
 
         {/* signup button */}
         <components.Section type="center">
@@ -802,10 +913,53 @@ const SignupScreen = ({navigation}) => {
         </ScrollView>
       </RBSheet>
       {/* </components.Container> */}
+
+      {/* map loading */}
+      {/* loader */}
+      {mapLoading && <components.Loading />}
+
+      {/* map view */}
+      {/* map modal */}
+      <Modal
+        animationType="slide"
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={{flex: 1}}>
+          <MapView
+            style={styles.map}
+            initialRegion={initialRegion}
+            provider={PROVIDER_GOOGLE}
+            ref={mapRef}
+            onPress={onMapPress}>
+            <Marker
+              coordinate={initialRegion}
+              draggable
+              pinColor={COLORS.primary}
+              onDragEnd={onDragEnd}
+              ref={markerRef}
+              title={userData.user_lesson_location}>
+              {/* <Callout>
+                <Text style={[styles.calloutText, {color: COLORS.text2}]}>
+                  {state.address}
+                </Text>
+              </Callout> */}
+            </Marker>
+          </MapView>
+        </View>
+      </Modal>
     </components.Container>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  map: {
+    flex: 1,
+  },
+  calloutText: {
+    fontSize: FONTS.h5,
+  },
+});
 
 export default SignupScreen;

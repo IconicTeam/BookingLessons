@@ -1,5 +1,7 @@
 import {RFValue} from 'react-native-responsive-fontsize';
 
+export const ApiKey = 'AIzaSyBiYVsms1B_cl6HT2JZqZBqF0_a90Yykfk';
+
 export const COLORS = {
   primary: '#374ef3',
   primary_overlay: '#dcdff3',
