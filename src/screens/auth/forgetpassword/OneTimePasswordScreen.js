@@ -31,8 +31,21 @@ export default class OneTimePassword extends React.Component {
    Verify_code3: '',
    Verify_code4: '',
    pressIn: true,
-   otp: ""
+   otp: "",
   }
+ }
+ check_code() {
+  let code = this.state.otp
+  if (code == "1234") {
+   this.props.navigation.navigate('ConfirmPasswordScreen')
+  } else {
+   alert("حدث خطأ ما اعد ادخال الكود مره اخري")
+  }
+  this.setState({
+   otp: code,
+   otp:"",
+   pressIn:true
+  })
  }
  render() {
   return (
@@ -71,14 +84,15 @@ export default class OneTimePassword extends React.Component {
         style={{ width: '90%', height: 50, alignItems: "center", justifyContent: "space-around" }}
         pinCount={4}
         code={this.state.otp}
-        codeInputFieldStyle={ styles.inputstyle}
+        codeInputFieldStyle={styles.inputstyle}
         onCodeChanged={(value) => {
-         this.setState({ otp: value,
+         this.setState({
+          otp: value,
          })
-         if (value.length==4) {
-          this.setState({pressIn:false})
-         }else{
-          this.setState({pressIn:true})
+         if (value.length == 4) {
+          this.setState({ pressIn: false })
+         } else {
+          this.setState({ pressIn: true })
          }
         }}
        />
@@ -89,16 +103,16 @@ export default class OneTimePassword extends React.Component {
         <Text style={[textStyles.smTextStyle, { color: COLORS.primary }]}>أعد إرسال الرمز</Text>
        </TouchableOpacity>
       </View>
-      <View style={{ alignItems: "center", justifyContent: "center", marginTop: 10 }}>
+      
+      <components.Section  type="center">
        <components.MainButton
-        width={"40%"}
+        width={"100%"}
         title={"تأكيد"}
         disabled={this.state.pressIn ? true : false}
-        backgroundColor={this.state.pressIn ? COLORS.disabled : COLORS.primary} 
-        onPress={(props) => this.props.navigation.navigate('ConfirmPasswordScreen')}
+        backgroundColor={this.state.pressIn ? COLORS.disabled : COLORS.primary}
+        onPress={() => this.check_code()}
        />
-
-      </View>
+</components.Section>
      </ScrollView>
     </components.Container>
    </>
@@ -119,16 +133,6 @@ const styles = StyleSheet.create({
   padding: PADDINGS.smPadding
 
  },
- touchableopicty2: {
-  width: RFValue(150),
-  height: RFValue(60),
-  alignSelf: "center",
-  marginTop: 30,
-  borderRadius: RADIUS.mdRadius,
-  alignItems: "center",
-  justifyContent: "center"
-
- },
  view5: {
   width: '100%',
   alignItems: 'center',
@@ -143,6 +147,6 @@ const styles = StyleSheet.create({
   backgroundColor: "#eee",
   color: "#000",
   borderRadius: 5,
-  textAlign:"center"
+  textAlign: "center"
  }
 })
