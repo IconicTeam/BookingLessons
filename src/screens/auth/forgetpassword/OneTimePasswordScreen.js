@@ -1,26 +1,33 @@
-import * as React from "react"
+import * as React from 'react';
 import {
- Text,
- View,
- Dimensions,
- TextInput,
- TouchableOpacity,
- Image,
- ImageBackground,
- Alert,
- ScrollView,
- StyleSheet,
- Keyboard,
- Pressable,
-} from "react-native"
-import { RFValue } from "react-native-responsive-fontsize";
+  Text,
+  View,
+  Dimensions,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  ImageBackground,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Keyboard,
+  Pressable,
+} from 'react-native';
+import {RFValue} from 'react-native-responsive-fontsize';
 
-import components from "../../../components";
-import Container from "../../../components/general/Container";
-import { generalStyles, textStyles, } from "../../../styles";
-import Icon from "react-native-vector-icons/FontAwesome5";
-import OTPInput from '@hirbod/react-native-otp-input'
-import { COLORS, FONTS, ICONS, Images, PADDINGS, RADIUS } from "../../../constants";
+import components from '../../../components';
+import Container from '../../../components/general/Container';
+import {generalStyles, textStyles} from '../../../styles';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import OTPInput from '@hirbod/react-native-otp-input';
+import {
+  COLORS,
+  FONTS,
+  ICONS,
+  Images,
+  PADDINGS,
+  RADIUS,
+} from '../../../constants';
 
 export default class OneTimePassword extends React.Component {
  constructor(props) {

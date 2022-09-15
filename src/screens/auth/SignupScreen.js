@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Dimensions,
   PermissionsAndroid,
@@ -15,13 +15,13 @@ import {
 import components from '../../components';
 
 // get all constants
-import {COLORS, ICONS, Icons, PADDINGS, RADIUS} from '../../constants';
+import { COLORS, ICONS, Icons, PADDINGS, RADIUS } from '../../constants';
 
 // styles
-import {buttonsStyles, generalStyles, textStyles} from '../../styles';
+import { buttonsStyles, generalStyles, textStyles } from '../../styles';
 
 // native base
-import {NativeBaseProvider, Avatar} from 'native-base';
+import { NativeBaseProvider, Avatar } from 'native-base';
 
 // Icons
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -32,9 +32,9 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 // images picker
 import ImagePicker from 'react-native-image-crop-picker';
 
-import {RFValue} from 'react-native-responsive-fontsize';
+import { RFValue } from 'react-native-responsive-fontsize';
 
-const SignupScreen = ({navigation}) => {
+const SignupScreen = ({ navigation }) => {
   // state...
   // user data
   const [userData, setUserData] = useState({
@@ -86,32 +86,32 @@ const SignupScreen = ({navigation}) => {
 
   // handle name change
   const onChangeUserName = value => {
-    setUserData({...userData, user_name: value});
+    setUserData({ ...userData, user_name: value });
   };
 
   // handle mobile change
   const onChangeUserMobile = value => {
-    setUserData({...userData, user_mobile: value});
+    setUserData({ ...userData, user_mobile: value });
   };
 
   // handle subject change
   const onChangeUserSubject = value => {
-    setUserData({...userData, user_subject: value});
+    setUserData({ ...userData, user_subject: value });
   };
 
   // handle location change
   const onChangeUserLocation = value => {
-    setUserData({...userData, user_lesson_location: value});
+    setUserData({ ...userData, user_lesson_location: value });
   };
 
   // handle password change
   const onChangeUserPassword = value => {
-    setUserData({...userData, user_password: value});
+    setUserData({ ...userData, user_password: value });
   };
 
   // handle confirm password change
   const onChangeUserConfirmPassword = value => {
-    setUserData({...userData, user_confirm_password: value});
+    setUserData({ ...userData, user_confirm_password: value });
   };
 
   // request camera permission
@@ -169,7 +169,7 @@ const SignupScreen = ({navigation}) => {
     })
       .then(image => {
         // console.log(image);
-        setUserData({...userData, user_image: image.path});
+        setUserData({ ...userData, user_image: image.path });
 
         // close action sheet
         RBSheetRef.current.close();
@@ -196,7 +196,7 @@ const SignupScreen = ({navigation}) => {
     })
       .then(image => {
         // console.log(image);
-        setUserData({...userData, user_image: image.path});
+        setUserData({ ...userData, user_image: image.path });
 
         // close action sheet
         RBSheetRef.current.close();
@@ -208,7 +208,7 @@ const SignupScreen = ({navigation}) => {
 
   // delete user photo
   const deletePhoto = () => {
-    setUserData({...userData, user_image: ''});
+    setUserData({ ...userData, user_image: '' });
 
     // close action sheet
     RBSheetRef.current.close();
@@ -414,18 +414,18 @@ const SignupScreen = ({navigation}) => {
             source={
               userData.user_image === ''
                 ? Icons.user_icon
-                : {uri: userData.user_image}
+                : { uri: userData.user_image }
             }>
             صورة
             <Avatar.Badge
               bg={COLORS.gray_overlay}
               style={[
                 generalStyles.badgeStyle,
-                {backgroundColor: COLORS.gray_overlay},
+                { backgroundColor: COLORS.gray_overlay },
               ]}>
               <Pressable
                 style={buttonsStyles.badgeButtonStyle}
-                android_ripple={{color: COLORS.white_gray}}
+                android_ripple={{ color: COLORS.white_gray }}
                 onPress={() => RBSheetRef.current.open()}>
                 <Icon name="camera" color={COLORS.black} size={ICONS.mdIcon} />
               </Pressable>
@@ -693,7 +693,7 @@ const SignupScreen = ({navigation}) => {
         {/* go to login screen */}
         <components.Section
           type="horizontal"
-          resStyle={{alignItems: 'center', justifyContent: 'center'}}>
+          resStyle={{ alignItems: 'center', justifyContent: 'center' }}>
           <Text style={textStyles.smTextStyle}>{'لديك حساب بالفعل؟ '}</Text>
           <TouchableOpacity
             activeOpacity={0.4}
@@ -719,8 +719,8 @@ const SignupScreen = ({navigation}) => {
               ? RFValue(45) * 4 + 8 * PADDINGS.mdPadding + RFValue(45) + 5
               : 40 * 4 + 8 * PADDINGS.mdPadding + RFValue(45) + 5
             : RFValue(45) >= 40
-            ? RFValue(45) * 3 + 7 * PADDINGS.mdPadding + RFValue(45) + 5
-            : 40 * 3 + 7 * PADDINGS.mdPadding + RFValue(45) + 5
+              ? RFValue(45) * 3 + 7 * PADDINGS.mdPadding + RFValue(45) + 5
+              : 40 * 3 + 7 * PADDINGS.mdPadding + RFValue(45) + 5
         }
         animationType="slide"
         closeOnDragDown
@@ -746,7 +746,7 @@ const SignupScreen = ({navigation}) => {
           },
         }}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <components.Section resStyle={{paddingTop: PADDINGS.xsPadding}}>
+          <components.Section resStyle={{ paddingTop: PADDINGS.xsPadding }}>
             {/* bottom sheet Title */}
             <components.Section
               type="center"
@@ -768,7 +768,7 @@ const SignupScreen = ({navigation}) => {
               width={'100%'}
               // type="disabled"
               onPress={() => requestCameraPermission('takePhoto')}
-              resStyle={{marginBottom: PADDINGS.mdPadding}}
+              resStyle={{ marginBottom: PADDINGS.mdPadding }}
               loading={openCameraLoading}
               loadingColor={COLORS.white}
               loadingSize="large"
@@ -778,7 +778,7 @@ const SignupScreen = ({navigation}) => {
               width={'100%'}
               // type="disabled"
               onPress={() => requestCameraPermission('selectFromGallery')}
-              resStyle={{marginBottom: PADDINGS.mdPadding}}
+              resStyle={{ marginBottom: PADDINGS.mdPadding }}
               loading={chooseFromGalleryLoading}
               loadingColor={COLORS.white}
               loadingSize="large"
@@ -789,7 +789,7 @@ const SignupScreen = ({navigation}) => {
                 width={'100%'}
                 // type="disabled"
                 onPress={deletePhoto}
-                resStyle={{marginBottom: PADDINGS.mdPadding}}
+                resStyle={{ marginBottom: PADDINGS.mdPadding }}
               />
             )}
             <components.MainButton

@@ -7,7 +7,7 @@ import {ICONS, COLORS, PADDINGS} from '../../../constants';
 import {styles} from './styles';
 import {buttonsStyles, generalStyles, textStyles} from '../../../styles';
 
-function PhoneConfirmScreen(props) {
+function PhoneConfirmScreen({navigation}) {
   // inputs refs
   const FirstTextInputRef = useRef();
 
@@ -23,6 +23,8 @@ function PhoneConfirmScreen(props) {
     user_confirm_password: '',
     user_image: '',
   });
+
+  const [disabled, setDisabled] = useState(true);
 
   // handle mobile change
   const onChangeUserMobile = value => {
@@ -56,7 +58,7 @@ function PhoneConfirmScreen(props) {
       <components.MainHeader
         title={'ادخل رقم الهاتف'}
         haveBackButton={true}
-        navigation={navigator}
+        navigation={navigation}
       />
       <ScrollView>
         <Image
@@ -73,6 +75,7 @@ function PhoneConfirmScreen(props) {
               onChangeUserMobile(value);
               if (onChangeMobile(value)) {
                 setMobileError('');
+                setDisabled(false);
               }
             }}
             autoCapitalize="none"
@@ -104,8 +107,9 @@ function PhoneConfirmScreen(props) {
         </View>
         <View style={[styles.ButtonViewStyle]}>
           <components.MainButton
-            title={'ارسال  '}
-            onPress={() => props.navigation.navigate('OneTimePasswordScreen')}
+            disabled={disabled}
+            title={'ارسال '}
+            onPress={() => navigation.navigate('OneTimePasswordScreen')}
           />
         </View>
       </ScrollView>

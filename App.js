@@ -16,7 +16,6 @@ class App extends Component {
         <NativeBaseProvider>
           <ContainerNavigation></ContainerNavigation>
         </NativeBaseProvider>
-        
       </SafeAreaProvider>
     );
   }

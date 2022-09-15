@@ -1,13 +1,11 @@
-import React, {useState, useRef, useEffect} from 'react';
-import {View, Text, Image, ScrollView} from 'react-native';
+import React, {useState, useRef} from 'react';
+import {View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import components from '../../../components';
-import confirm from '../../../../src/constants/Images';
-import {ICONS, COLORS, PADDINGS} from '../../../constants';
+import components from '../../components';
+import {PADDINGS, ICONS, COLORS} from '../../constants';
 import {styles} from './styles';
-import {buttonsStyles, generalStyles, textStyles} from '../../../styles';
-
-function ForgetPasswordScreen({navigation}) {
+import {textStyles, buttonsStyles, generalStyles} from '../../styles';
+function ChangePasswordScreen(props) {
   const [userData, setUserData] = useState({
     user_id: '1',
     user_token: 'authToken',
@@ -15,34 +13,40 @@ function ForgetPasswordScreen({navigation}) {
     user_mobile: '',
     user_subject: '',
     user_lesson_location: '',
+    user_old_Password: '',
     user_password: '',
     user_confirm_password: '',
     user_image: '',
   });
 
-  const [disableTextInput1, setDisableTextInput1] = useState(true);
-  const [disableTextInput2, setDisableTextInput2] = useState(true);
-  const [disabled, setDisabled] = useState(true);
-
   // inputs refs
   const firstTextInputRef = useRef();
   const secondTextInputRef = useRef();
+  const thirdTextInputRef = useRef();
 
   // errors
+  const [oldPasswordError, setOldPasswordError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPassError, setConfirmPassError] = useState('');
 
   // passowrd show
+  const [oldpassSecureTextEntry, setOldPassSecureTextEntry] = useState(true);
   const [passSecureTextEntry, setPassSecureTextEntry] = useState(true);
   const [confirmPassSecureTextEntry, setConfirmPassSecureTextEntry] =
     useState(true);
 
   // show pass functions
+  const handleVisibleOldPass = () =>
+    setOldPassSecureTextEntry(!oldpassSecureTextEntry);
   const handleVisiblePass = () => setPassSecureTextEntry(!passSecureTextEntry);
   const handleVisibleConfirmPass = () =>
     setConfirmPassSecureTextEntry(!confirmPassSecureTextEntry);
 
   // handle password change
+  const onChangeUserOldPassword = value => {
+    setUserData({...userData, user_old_password: value});
+  };
+
   const onChangeUserPassword = value => {
     setUserData({...userData, user_password: value});
   };
@@ -53,6 +57,10 @@ function ForgetPasswordScreen({navigation}) {
   };
 
   // on change inputs
+  const onChangeOldPassword = value => {
+    return value.trim().length >= 6;
+  };
+
   const onChangePassword = value => {
     return value.trim().length >= 6;
   };
@@ -68,6 +76,14 @@ function ForgetPasswordScreen({navigation}) {
   const submitUserData = () => {
     setSignupLoading(true);
     let errors = 0;
+
+    //old password
+    if (userData.user_old_Password.trim().length < 6) {
+      setOldPasswordError('يجب ادخال كلمة السر القديمة بشكل صحيح !');
+      errors++;
+    } else {
+      setOldPasswordError('');
+    }
 
     // password
     if (userData.user_password.trim().length < 6) {
@@ -91,6 +107,16 @@ function ForgetPasswordScreen({navigation}) {
 
   //Functions
 
+  const onEndEditingOldPass = value => {
+    // old Password
+    if (value.trim().length < 6 && value.trim().length != 0) {
+      setOldPasswordError('يجب ادخال كلمة السر القديمة بشكل صحيح !');
+      return false;
+    } else {
+      setOldPasswordError('');
+      return true;
+    }
+  };
   const onEndEditingPass = value => {
     // password
     if (value.trim().length < 6 && value.trim().length != 0) {
@@ -112,42 +138,70 @@ function ForgetPasswordScreen({navigation}) {
       return false;
     } else {
       setConfirmPassError('');
-      setDisableTextInput2(false);
       return true;
     }
   };
-
-  const handleDisabled = () => {
-    if (disableTextInput1 === false && disableTextInput2 === false) {
-      return false;
-    } else {
-      return true;
-    }
-  };
-
   return (
     <View style={styles.container}>
-      <components.MainHeader
-        title={'ادخل كلمة المرور'}
-        haveBackButton={true}
-        navigation={navigation}
-      />
-      <ScrollView>
-        <Image
-          style={styles.image}
-          resizeMode="contain"
-          source={require('../../../assets/Images/confirm.png')}
-        />
-        <Text style={styles.hintTitle}>من فضلك ادخل كلمة المرور الجديدة</Text>
-        <View style={styles.textInputsContainer}>
+      <components.MainHeader title={'تغيير كلمة المرور'} haveBackButton />
+
+      <View style={styles.textInputsContainer}>
+        <View>
           <components.MainTextInput
+            placeholder={'كلمة المرور القديمة'}
             inputRef={firstTextInputRef}
+            // value={userData.user_old_Password}
+            onChangeText={value => {
+              onChangeUserOldPassword(value);
+              if (onChangeOldPassword(value)) {
+                setOldPasswordError('');
+              }
+            }}
+            autoCapitalize="none"
+            keyboardType={
+              oldpassSecureTextEntry ? 'name-phone-pad' : 'visible-password'
+            }
+            blurOnSubmit={true}
+            returnKeyType="next"
+            onSubmitEditing={() => {
+              firstTextInputRef.current.focus();
+            }}
+            secureTextEntry={oldpassSecureTextEntry}
+            left={
+              <components.SmallCircleButton onPress={handleVisibleOldPass}>
+                <Icon
+                  name={oldpassSecureTextEntry ? 'eye-off' : 'eye'}
+                  size={ICONS.mdIcon}
+                  color={oldpassSecureTextEntry ? COLORS.gray : COLORS.primary}
+                />
+              </components.SmallCircleButton>
+            }
+            onEndEditing={e => onEndEditingOldPass(e.nativeEvent.text)}
+          />
+          {oldPasswordError && (
+            <Text
+              style={[
+                textStyles.smTextStyle,
+                {
+                  color: COLORS.error,
+                  marginLeft: PADDINGS.xsPadding,
+                  paddingTop: PADDINGS.xsPadding,
+                  alignSelf: 'flex-start',
+                },
+              ]}>
+              {oldPasswordError}
+            </Text>
+          )}
+        </View>
+        <View>
+          <components.MainTextInput
+            placeholder={'كلمة المرور الجديدة'}
+            inputRef={secondTextInputRef}
             value={userData.user_password}
             onChangeText={value => {
               onChangeUserPassword(value);
               if (onChangePassword(value)) {
                 setPasswordError('');
-                setDisableTextInput1(false);
               }
             }}
             autoCapitalize="none"
@@ -158,9 +212,8 @@ function ForgetPasswordScreen({navigation}) {
             returnKeyType="next"
             secureTextEntry={passSecureTextEntry}
             onSubmitEditing={() => {
-              firstTextInputRef.current.focus();
+              secondTextInputRef.current.focus();
             }}
-            placeholder="كلمة المرور الجديدة"
             left={
               <components.SmallCircleButton onPress={handleVisiblePass}>
                 <Icon
@@ -186,15 +239,17 @@ function ForgetPasswordScreen({navigation}) {
               {passwordError}
             </Text>
           )}
+        </View>
 
+        <View>
           <components.MainTextInput
-            inputRef={secondTextInputRef}
+            placeholder={'تأكيد كلمة المرور الجديدة'}
+            inputRef={thirdTextInputRef}
             value={userData.user_confirm_password}
             onChangeText={value => {
               onChangeUserConfirmPassword(value);
               if (onChangeConfirmPassword(value)) {
                 setConfirmPassError('');
-                setDisableTextInput2(true);
               }
             }}
             autoCapitalize="none"
@@ -202,10 +257,8 @@ function ForgetPasswordScreen({navigation}) {
               confirmPassSecureTextEntry ? 'name-phone-pad' : 'visible-password'
             }
             blurOnSubmit={true}
-            marginTop={PADDINGS.mdPadding}
             returnKeyType="done"
             secureTextEntry={confirmPassSecureTextEntry}
-            placeholder="تأكيد كلمة المرور الجديدة"
             left={
               <components.SmallCircleButton onPress={handleVisibleConfirmPass}>
                 <Icon
@@ -234,19 +287,19 @@ function ForgetPasswordScreen({navigation}) {
             </Text>
           )}
         </View>
-        <View style={[styles.ButtonViewStyle]}>
-          <components.MainButton
-            disabled={handleDisabled()}
-            title={'تغيير كلمة المرور'}
-            loading={signupLoading}
-            loadingSize="large"
-            loadingColor={COLORS.white}
-            onPress={submitUserData}
-          />
-        </View>
-      </ScrollView>
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <components.MainButton
+          title={'تغيير كلمة المرور'}
+          loading={signupLoading}
+          loadingSize="large"
+          loadingColor={COLORS.white}
+          onPress={submitUserData}
+        />
+      </View>
     </View>
   );
 }
 
-export default ForgetPasswordScreen;
+export default ChangePasswordScreen;
