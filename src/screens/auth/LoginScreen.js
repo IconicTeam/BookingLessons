@@ -31,7 +31,52 @@ export default class LoginScreen extends React.Component {
     this.state = {
       user_mobile: '',
       user_password: '',
+      passwordError: '',
+      mobileError: '',
+      visible_password: true,
     };
+  }
+
+  onChangeMobile = value => {
+    let reg = /^(\+201|01){1}[0-2,5][0-9]{8}$/;
+    return reg.test(value.trim());
+  };
+
+  onChangePassword = value => {
+    return value.trim() >= 6;
+  };
+
+  // password
+  check_Pass() {
+    let error = this.state.passwordError;
+    let password = this.state.user_password;
+
+    if (password.trim().length < 6 && password.trim().length != 0) {
+      error = 'يجب تكون كلمة السر أكبر من أو تساوى 6 أحرف!';
+    } else {
+      error = '';
+    }
+
+    this.setState({
+      passwordError: error,
+    });
+  }
+
+  // mobile
+  check_mobile(value) {
+    let error = this.state.mobileError;
+    let mobile = this.state.user_mobile;
+
+    let reg = /^(\+201|01){1}[0-2,5][0-9]{8}$/;
+    if (reg.test(value.trim()) == false && value.trim().length != 0) {
+      error = 'برجاء ادخال رقم صالح!';
+    } else {
+      error = '';
+    }
+
+    this.setState({
+      mobileError: error,
+    });
   }
 
   render() {
@@ -59,11 +104,12 @@ export default class LoginScreen extends React.Component {
               }}
             />
           </View>
+
           {/* inputs section */}
           <components.Section>
             <components.MainTextInput
               placeholder={'رقم التلفون'}
-              marginTop={10}
+              marginTop={PADDINGS.smPadding}
               autoCapitalize="none"
               keyboardType="phone-pad"
               maxLength={this.state.user_mobile.startsWith('+2') ? 13 : 11}
@@ -72,33 +118,79 @@ export default class LoginScreen extends React.Component {
                 this.setState({
                   user_mobile: value,
                 });
+                if (this.onChangeMobile(value)) {
+                  this.setState({mobileError: ''});
+                }
               }}
+              onEndEditing={e => this.check_mobile(e.nativeEvent.text)}
             />
+            {this.state.mobileError && (
+              <Text
+                style={[
+                  textStyles.smTextStyle,
+                  {
+                    color: COLORS.error,
+                    marginLeft: PADDINGS.xsPadding,
+                    paddingTop: PADDINGS.xsPadding,
+                    alignSelf: 'flex-start',
+                  },
+                ]}>
+                {this.state.mobileError}
+              </Text>
+            )}
 
             <components.MainTextInput
               placeholder={'الرقم السرى'}
-              marginTop={15}
+              marginTop={PADDINGS.mdPadding}
               value={this.state.user_password}
               onChangeText={value => {
                 this.setState({
                   user_password: value,
                 });
+                if (this.onChangePassword(value)) {
+                  this.setState({passwordError: ''});
+                }
               }}
               autoCapitalize="none"
               keyboardType="name-phone-pad"
-              blurOnSubmit={true}
-              secureTextEntry={true}
+              blurOnSubmit={false}
+              secureTextEntry={this.state.visible_password}
               left={
-                <components.SmallCircleButton onPress={() => alert()}>
+                <components.SmallCircleButton
+                  onPress={() =>
+                    this.setState({
+                      visible_password: !this.state.visible_password,
+                    })
+                  }>
                   <Icon
-                    name="eye-off"
+                    name={this.state.visible_password ? 'eye-off' : 'eye'}
                     size={ICONS.mdIcon}
-                    color={COLORS.gray}
+                    color={
+                      this.state.visible_password ? COLORS.gray : COLORS.primary
+                    }
                   />
                 </components.SmallCircleButton>
               }
+              onEndEditing={e => this.check_Pass(e.nativeEvent.text)}
             />
+
+            {this.state.passwordError && (
+              <Text
+                style={[
+                  textStyles.smTextStyle,
+                  {
+                    color: COLORS.error,
+                    marginLeft: PADDINGS.xsPadding,
+                    paddingTop: PADDINGS.xsPadding,
+                    alignSelf: 'flex-start',
+                  },
+                ]}>
+                {this.state.passwordError}
+              </Text>
+            )}
+
             <TouchableOpacity
+              style={{alignSelf: 'flex-end'}}
               activeOpacity={0.4}
               onPress={() =>
                 this.props.navigation.navigate('PhoneConfirmScreen')
@@ -109,7 +201,6 @@ export default class LoginScreen extends React.Component {
                   textStyles.primaryTextStyle,
                   textStyles.boldTextStyle,
                   {
-                    textAlign: 'right',
                     marginRight: PADDINGS.xsPadding,
                     marginTop: PADDINGS.xsPadding,
                   },
@@ -124,9 +215,19 @@ export default class LoginScreen extends React.Component {
               title="تسجيل الدخول"
               width={'100%'}
               // type="disabled"
-              // onPress={}
+              onPress={() => {
+                this.check_Pass(this.state.user_password);
+                this.check_mobile(this.state.user_mobile);
+              }}
+              disabled={
+                true
+                  ? this.state.user_mobile == '' ||
+                    this.state.user_password == ''
+                  : this.state.user_mobile != '' ||
+                    this.state.user_password != ''
+              }
             />
-            <View style={{alignItems: 'center', marginVertical: 20}}>
+            {/* <View style={{alignItems: 'center', marginVertical: 20}}>
               <Text style={textStyles.smTextStyle}>او باستخدام</Text>
             </View>
             <View
@@ -153,14 +254,13 @@ export default class LoginScreen extends React.Component {
                   size={RFValue(ICONS.mdIcon)}
                 />
               </TouchableOpacity>
-            </View>
+            </View> */}
           </components.Section>
 
           <components.Section>
             <View
               style={{
                 alignItems: 'center',
-                marginTop: 50,
                 flexDirection: 'row',
                 justifyContent: 'center',
               }}>

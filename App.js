@@ -7,6 +7,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 // navigation
 import ContainerNavigation from './src/navigation';
+import Screens from './src/screens';
 
 import {enableLatestRenderer} from 'react-native-maps';
 

@@ -6,7 +6,7 @@ import {ICONS, COLORS, PADDINGS, Images} from '../../../constants';
 import {styles} from './styles';
 import {buttonsStyles, generalStyles, textStyles} from '../../../styles';
 
-function PhoneConfirmScreen(props) {
+function PhoneConfirmScreen({navigation}) {
   // inputs refs
   const FirstTextInputRef = useRef();
 
@@ -22,6 +22,10 @@ function PhoneConfirmScreen(props) {
     user_confirm_password: '',
     user_image: '',
   });
+
+  const [disabled, setDisabled] = useState(true);
+
+  const [done, setDone] = useState(false);
 
   // handle mobile change
   const onChangeUserMobile = value => {
@@ -50,12 +54,43 @@ function PhoneConfirmScreen(props) {
     }
   };
 
+  // generate random code here...
+  const generatCode = () => {
+    let code = '';
+    const numbers = '0123456789';
+    for (let i = 0; i < 4; i++) {
+      code += numbers[Math.floor(Math.random() * numbers.length)];
+    }
+    return code;
+  };
+
+  // send code
+  const sendCode = () => {
+    if (onChangeMobile(userData.user_mobile) == true) {
+      setDone(true);
+      setUserData({...userData, user_mobile: ''});
+      setMobileError('');
+      setDisabled(true);
+    } else {
+      setMobileError('برجاء ادخال رقم صالح!');
+    }
+  };
+
+  const goToOTPScreen = () => {
+    const code = generatCode();
+    console.log(code);
+    navigation.navigate('OneTimePasswordScreen', {
+      code, // here you must pass random code.
+    });
+    setDone(false);
+  };
+
   return (
     <View style={styles.container}>
       <components.MainHeader
         title={'ادخل رقم الهاتف'}
         haveBackButton={true}
-        navigation={props.navigation}
+        navigation={navigation}
       />
       <ScrollView>
         <Image
@@ -70,8 +105,10 @@ function PhoneConfirmScreen(props) {
             value={userData.user_mobile}
             onChangeText={value => {
               onChangeUserMobile(value);
+              setDisabled(true);
               if (onChangeMobile(value)) {
                 setMobileError('');
+                setDisabled(false);
               }
             }}
             autoCapitalize="none"
@@ -103,11 +140,22 @@ function PhoneConfirmScreen(props) {
         </View>
         <View style={[styles.ButtonViewStyle]}>
           <components.MainButton
-            title={'ارسال  '}
-            onPress={() => props.navigation.navigate('ForgetPasswordScreen')}
+            disabled={disabled}
+            title={'ارسال'}
+            onPress={() => {
+              sendCode();
+            }}
           />
         </View>
       </ScrollView>
+      {done && (
+        <components.DoneModal
+          onPress={goToOTPScreen}
+          title={'تم ارسال الكود بنجاج🎉'}
+          description={'من فضلك قم بتفقد الرسالة النصية المرسلة الى هاتفك'}
+          btnText={'ادخل الكود'}
+        />
+      )}
     </View>
   );
 }
