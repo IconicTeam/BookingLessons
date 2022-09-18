@@ -3,12 +3,12 @@ Booking Lessons for make it easy to students to book any lesson you need
 
 ## Screens (Teacher)
 #### TODO
-- [ ] Auth
-  - [ ] Login
+- [x] Auth (with integration ❌)
+  - [x] Login
   - [x] Signup
-  - [ ] EnterPhone
-  - [ ] OTP
-  - [ ] ConfirmPassword
+  - [x] EnterPhone
+  - [x] OTP
+  - [x] ConfirmPassword
 
 - [ ] Home
   - [ ] Dashboard (Home)
