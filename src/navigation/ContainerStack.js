@@ -11,7 +11,7 @@ import {
 const Stack = createStackNavigator();
 
 // import all stacks
-import {AuthStack} from './navigators';
+import {AuthStack, BottomTabs} from './navigators';
 
 const ContainerStack = () => {
   return (
@@ -40,6 +40,7 @@ const ContainerStack = () => {
         },
       }}>
       <Stack.Screen name="AuthStack" component={AuthStack} />
+      <Stack.Screen name="BottomTabs" component={BottomTabs} />
     </Stack.Navigator>
   );
 };
