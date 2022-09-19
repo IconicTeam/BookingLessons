@@ -4,7 +4,6 @@ import {View, Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import screens from '../../screens';
-import Waiting from '../../screens/home/WaitingList';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -17,6 +16,7 @@ const BottomTabs = () => {
     <Tab.Navigator
       screenOptions={({route}) => ({
         headerShown: false,
+        tabBarHideOnKeyboard: true,
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
 
@@ -47,7 +47,7 @@ const BottomTabs = () => {
       })}>
       <Tab.Screen name="Dashboard" component={screens.Dashboard} />
       <Tab.Screen name="Reservation" component={screens.Reservation} />
-      <Tab.Screen name="Waiting" component={Waiting} />
+      <Tab.Screen name="Waiting" component={screens.Waiting} />
       <Tab.Screen name="Profile" component={screens.Profile} />
     </Tab.Navigator>
   );

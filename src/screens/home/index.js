@@ -1,7 +1,7 @@
 import Dashboard from './Dashboard';
 import Reservation from './Reservation';
-import Waiting from './Waiting';
 import Profile from './Profile';
+import Waiting from './WaitingList';
 
 export default {
   Dashboard,
