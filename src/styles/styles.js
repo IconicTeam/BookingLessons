@@ -63,7 +63,7 @@ export const generalStyles = StyleSheet.create({
     flex: 1,
     padding: 0,
     margin: 0,
-    paddingHorizontal: PADDINGS.smPadding,
+    paddingHorizontal: PADDINGS.xsPadding,
     color: COLORS.black,
     fontSize: FONTS.h5,
     textAlign: 'right',
