@@ -47,37 +47,47 @@ export default class LoginScreen extends React.Component {
   };
 
   // password
-  check_Pass() {
-    let error = this.state.passwordError;
-    let password = this.state.user_password;
-
-    if (password.trim().length < 6 && password.trim().length != 0) {
-      error = 'يجب تكون كلمة السر أكبر من أو تساوى 6 أحرف!';
+  check_Pass(value) {
+    if (value.trim().length < 6 && value.trim().length != 0) {
+      this.setState({
+        passwordError: 'يجب تكون كلمة السر أكبر من أو تساوى 6 أحرف!',
+      });
+      return false;
     } else {
-      error = '';
+      this.setState({
+        passwordError: '',
+      });
+      return true;
     }
-
-    this.setState({
-      passwordError: error,
-    });
   }
 
   // mobile
   check_mobile(value) {
-    let error = this.state.mobileError;
-    let mobile = this.state.user_mobile;
-
     let reg = /^(\+201|01){1}[0-2,5][0-9]{8}$/;
     if (reg.test(value.trim()) == false && value.trim().length != 0) {
-      error = 'برجاء ادخال رقم صالح!';
+      this.setState({
+        mobileError: 'برجاء ادخال رقم صالح!',
+      });
+      return false;
     } else {
-      error = '';
+      this.setState({
+        mobileError: '',
+      });
+      return true;
     }
-
-    this.setState({
-      mobileError: error,
-    });
   }
+
+  login = () => {
+    if (
+      this.check_mobile(this.state.user_mobile) &&
+      this.check_Pass(this.state.user_password)
+    ) {
+      alert('success');
+      this.props.navigation.navigate('BottomTabs');
+    } else {
+      alert('failed');
+    }
+  };
 
   render() {
     return (
@@ -216,8 +226,7 @@ export default class LoginScreen extends React.Component {
               width={'100%'}
               // type="disabled"
               onPress={() => {
-                this.check_Pass(this.state.user_password);
-                this.check_mobile(this.state.user_mobile);
+                this.login();
               }}
               disabled={
                 true

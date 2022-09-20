@@ -8,7 +8,7 @@ import buttons from '../buttons'; // if we use (import components from '../../co
 
 import {PADDINGS} from '../../constants';
 
-const MainHeader = ({navigation, title, haveBackButton, anotherButtons}) => {
+const MainHeader = ({navigation, title, haveBackButton,anotherButtons}) => {
   return (
     <View
       style={[
