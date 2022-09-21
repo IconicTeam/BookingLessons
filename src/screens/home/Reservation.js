@@ -40,7 +40,6 @@ export default class Reservation extends React.Component {
           <View style={styles.mainView}>
             <TouchableOpacity
             activeOpacity={0.4}
-            
             style={styles.button}>
               <Image source={Images.students}
                style={styles.image}
@@ -60,9 +59,7 @@ export default class Reservation extends React.Component {
               <Text style={textStyles.lgTextStyle}>الصف الثالث</Text>
             </TouchableOpacity>
           </View>
-          <View style={{padding:PADDINGS.mdPadding+10}}> 
-        
-            </View>
+          
           
         </ScrollView>
       </components.Container>
