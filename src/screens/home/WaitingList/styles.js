@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   studentName: {
-    fontSize: FONTS.h5,
+    fontSize: FONTS.h6,
     color: COLORS.black,
     fontWeight: 'bold',
   },

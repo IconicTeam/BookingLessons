@@ -80,6 +80,9 @@ function Waiting(props) {
 
   const [filteredStudents, setFilteredStudents] = useState([...students]);
   const [onChangeValue, setOnChangeValue] = useState(0);
+  const [emtyArray, setEmtyArray] = useState(
+    'الطالب غير موجود من فضلك تأكد من صحة الاسم',
+  );
 
   // Functions
   function search(val) {
@@ -94,9 +97,9 @@ function Waiting(props) {
   }
 
   function deleteItem(index) {
-    let newData = [...students];
+    let newData = [...filteredStudents];
     let newItems = newData.filter(el => el !== newData[index]);
-    setStudents(newItems);
+    setFilteredStudents(newItems);
   }
 
   //dropdown component
@@ -266,7 +269,8 @@ function Waiting(props) {
               ]}>
               <Icon
                 onPress={() => {
-                  setStudents([]);
+                  setFilteredStudents([]);
+                  setEmtyArray('لا يوجد طلاب');
                 }}
                 name="close"
                 style={styles.acceptRejectIcon}
@@ -276,21 +280,9 @@ function Waiting(props) {
         </View>
         {filteredStudents.length != 0 ? (
           <FlatList
-            // contentContainerStyle={styles.FlatListStyle}
             data={filteredStudents}
             renderItem={handlerRenderItem}
             showsVerticalScrollIndicator={false}
-            // ListEmptyComponent={
-            //   <View
-            //     style={{
-            //       flex: 1,
-            //       alignItems: 'center',
-            //       justifyContent: 'center',
-            //       backgroundColor: '#f00',
-            //     }}>
-            //     <Text>empty</Text>
-            //   </View>
-            // }
           />
         ) : (
           <View
@@ -305,7 +297,7 @@ function Waiting(props) {
                 textStyles.grayTextStyle,
                 {textAlign: 'center'},
               ]}>
-              الطالب غير موجود من فضلك تأكد من صحة الاسم
+              {emtyArray}
             </Text>
           </View>
         )}

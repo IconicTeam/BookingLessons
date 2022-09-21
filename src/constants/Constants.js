@@ -53,5 +53,6 @@ export const FONTS = {
   h3: RFValue(25) >= 25 ? RFValue(25) : 20,
   h4: RFValue(20) >= 20 ? RFValue(20) : 17,
   h5: RFValue(15) >= 15 ? RFValue(15) : 14,
-  h6: RFValue(11) >= 11 ? RFValue(10) : 11,
+  h6: RFValue(13) >= 13 ? RFValue(12) : 13,
+  h7: RFValue(11) >= 11 ? RFValue(10) : 11,
 };
